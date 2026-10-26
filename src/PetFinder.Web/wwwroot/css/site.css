@@ -199,3 +199,46 @@ html{scroll-padding-top:96px}body{background:#fffdf9;color:var(--ink);font-famil
 
 .results-section > .empty-state h2 { margin: .6rem 0 .45rem; }
 .results-section > .empty-state p { margin-bottom: 1rem; }
+
+
+/* Adoption catalogue: framework-independent layout to prevent collapsed columns. */
+.adoption-filter-grid {
+    display: grid;
+    grid-template-columns: minmax(180px, 1.45fr) minmax(155px, 1.25fr) minmax(120px, .85fr) minmax(120px, .85fr) minmax(110px, .75fr);
+    align-items: end;
+    gap: 1rem;
+    width: 100%;
+}
+
+.adoption-filter-field,
+.adoption-filter-actions { min-width: 0; }
+.adoption-filter-field .form-label { display: block; line-height: 1.35; }
+.adoption-filter-actions .btn { min-height: 44px; }
+
+.adoption-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: clamp(1rem, 2.2vw, 1.6rem);
+    width: 100%;
+}
+
+.adoption-grid__item { display: flex; min-width: 0; }
+.adoption-grid__item > .pet-card { width: 100%; }
+.adoption-section .pet-card-image { height: clamp(230px, 22vw, 290px); }
+.adoption-section .pet-card-body { min-width: 0; }
+.adoption-section .pet-card-body h2,
+.adoption-section .pet-card-body p { overflow-wrap: anywhere; }
+
+@media (max-width: 991.98px) {
+    .adoption-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .adoption-filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .adoption-filter-actions { grid-column: 1 / -1; }
+}
+
+@media (max-width: 575.98px) {
+    .adoption-grid,
+    .adoption-filter-grid { grid-template-columns: minmax(0, 1fr); }
+    .adoption-filter-actions { grid-column: auto; }
+    .adoption-section .pet-card-image { height: 245px; }
+}

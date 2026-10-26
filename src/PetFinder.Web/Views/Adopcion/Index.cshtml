@@ -4,33 +4,76 @@
     ViewData["Title"] = "Conoce para adoptar";
 }
 <section class="section container adoption-section">
-    <div class="section-heading"><span class="eyebrow">Un hogar puede empezar aquí</span><h1>Conoce a tu próximo compañero</h1><p>Explora mascotas publicadas por refugios aliados y solicita una visita presencial.</p></div>
-    <form method="get" class="filter-panel"><div class="row g-3 align-items-end">
-        <div class="col-md-3"><label asp-for="RefugioId" class="form-label">Refugio</label><select asp-for="RefugioId" class="form-select"><option value="">Todos los refugios</option>@foreach (var refugio in Model.Refugios){<option value="@refugio.Id">@refugio.Nombre</option>}</select></div>
-        <div class="col-md-3"><label asp-for="Especie" class="form-label">Especie</label><select asp-for="Especie" asp-items="Html.GetEnumSelectList<Especie>()" class="form-select"><option value="">Todas</option></select></div>
-        <div class="col-md-2"><label asp-for="EdadMinimaMeses" class="form-label">Edad mín. (meses)</label><input asp-for="EdadMinimaMeses" class="form-control" min="0" /></div>
-        <div class="col-md-2"><label asp-for="EdadMaximaMeses" class="form-label">Edad máx. (meses)</label><input asp-for="EdadMaximaMeses" class="form-control" min="0" /></div>
-        <div class="col-md-2"><button class="btn btn-primary w-100" type="submit">Filtrar</button></div>
-    </div></form>
+    <div class="section-heading">
+        <span class="eyebrow">Un hogar puede empezar aquí</span>
+        <h1>Conoce a tu próximo compañero</h1>
+        <p>Explora mascotas publicadas por refugios aliados y solicita una visita presencial.</p>
+    </div>
+
+    <form method="get" class="filter-panel adoption-filter-panel">
+        <div class="adoption-filter-grid">
+            <div class="adoption-filter-field">
+                <label asp-for="RefugioId" class="form-label">Refugio</label>
+                <select asp-for="RefugioId" class="form-select">
+                    <option value="">Todos los refugios</option>
+                    @foreach (var refugio in Model.Refugios)
+                    {
+                        <option value="@refugio.Id">@refugio.Nombre</option>
+                    }
+                </select>
+            </div>
+            <div class="adoption-filter-field">
+                <label asp-for="Especie" class="form-label">Especie</label>
+                <select asp-for="Especie" asp-items="Html.GetEnumSelectList<Especie>()" class="form-select">
+                    <option value="">Todas</option>
+                </select>
+            </div>
+            <div class="adoption-filter-field">
+                <label asp-for="EdadMinimaMeses" class="form-label">Edad mín. (meses)</label>
+                <input asp-for="EdadMinimaMeses" class="form-control" min="0" />
+            </div>
+            <div class="adoption-filter-field">
+                <label asp-for="EdadMaximaMeses" class="form-label">Edad máx. (meses)</label>
+                <input asp-for="EdadMaximaMeses" class="form-control" min="0" />
+            </div>
+            <div class="adoption-filter-actions">
+                <button class="btn btn-primary w-100" type="submit">Filtrar</button>
+            </div>
+        </div>
+    </form>
+
     @if (Model.Mascotas.Count == 0)
     {
-        <div class="empty-state"><div class="empty-icon" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" focusable="false"><use href="@Url.Content("~/img/icons.svg")#paw"></use></svg></div><h2>Pronto conocerás más amigos</h2><p>No encontramos mascotas con esos filtros. Prueba otra especie, edad o refugio.</p></div>
+        <div class="empty-state adoption-empty-state">
+            <div class="empty-icon" aria-hidden="true">
+                <svg class="icon-svg" viewBox="0 0 24 24" focusable="false"><use href="@Url.Content("~/img/icons.svg")#paw"></use></svg>
+            </div>
+            <h2>Pronto conocerás más amigos</h2>
+            <p>No encontramos mascotas con esos filtros. Prueba otra especie, edad o refugio.</p>
+        </div>
     }
     else
     {
-        <div class="row g-4 pet-grid">
-        @foreach (var mascota in Model.Mascotas)
-        {
-            <div class="col-sm-6 col-lg-4">
-                <article class="pet-card">
-                    <a asp-action="Detalle" asp-route-id="@mascota.Id" class="pet-card-image">
-                        <span class="img-reveal" data-image-reveal><img src="@mascota.FotoUrl" alt="Foto de @mascota.Nombre" loading="lazy" decoding="async" width="640" height="480" data-image-fallback="@Url.Content("~/img/especies/" + mascota.Especie.ToString().ToLowerInvariant() + ".svg")" /></span>
-                        <span class="status-pill">Disponible</span>
-                    </a>
-                    <div class="pet-card-body"><span class="eyebrow">@mascota.Especie · @mascota.Ciudad</span><h2>@mascota.Nombre</h2><p>@(string.IsNullOrWhiteSpace(mascota.Raza) ? "Sin raza definida" : mascota.Raza) · @(mascota.EdadMeses.HasValue ? $"{mascota.EdadMeses} meses" : "Edad por conocer")</p><a class="text-link" asp-action="Detalle" asp-route-id="@mascota.Id">Conocer a @mascota.Nombre →</a></div>
-                </article>
-            </div>
-        }
+        <div class="adoption-grid">
+            @foreach (var mascota in Model.Mascotas)
+            {
+                <div class="adoption-grid__item">
+                    <article class="pet-card">
+                        <a asp-action="Detalle" asp-route-id="@mascota.Id" class="pet-card-image">
+                            <span class="img-reveal" data-image-reveal>
+                                <img src="@mascota.FotoUrl" alt="Foto de @mascota.Nombre" loading="lazy" decoding="async" width="640" height="480" data-image-fallback="@Url.Content("~/img/especies/" + mascota.Especie.ToString().ToLowerInvariant() + ".svg")" />
+                            </span>
+                            <span class="status-pill">Disponible</span>
+                        </a>
+                        <div class="pet-card-body">
+                            <span class="eyebrow">@mascota.Especie · @mascota.Ciudad</span>
+                            <h2>@mascota.Nombre</h2>
+                            <p>@(string.IsNullOrWhiteSpace(mascota.Raza) ? "Sin raza definida" : mascota.Raza) · @(mascota.EdadMeses.HasValue ? $"{mascota.EdadMeses} meses" : "Edad por conocer")</p>
+                            <a class="text-link" asp-action="Detalle" asp-route-id="@mascota.Id">Conocer a @mascota.Nombre →</a>
+                        </div>
+                    </article>
+                </div>
+            }
         </div>
     }
 </section>
