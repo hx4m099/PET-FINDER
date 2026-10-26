@@ -41,10 +41,4 @@ initializers.forEach((initialize) => {
     }
 });
 
-// La escena 3D de resultados es una mejora opcional; un fallo de WebGL/CDN no debe
-// impedir que se inicialicen imágenes, reveals, mapa ni el resto de interacciones.
-if (document.querySelector('[data-searching-scene]')) {
-    import('./three/searching-scene.js')
-        .then(({ initSearchingScenes }) => initSearchingScenes())
-        .catch((error) => console.warn('PetFinder: la escena 3D de resultados no está disponible.', error));
-}
+// La vista de resultados usa contenido ligero; no importar Three.js ni crear un WebGL context aquí.

@@ -185,3 +185,17 @@ html{scroll-padding-top:96px}body{background:#fffdf9;color:var(--ink);font-famil
     margin-inline: auto;
     color: var(--orange-dark);
 }
+
+
+.results-section > .empty-state {
+    width: min(100%, 760px);
+    min-height: 0;
+    margin: 1.25rem auto 0;
+    padding: clamp(1.5rem, 3vw, 2.4rem);
+    border-color: rgba(215, 207, 194, .8);
+    background: linear-gradient(145deg, #fffdf9, #f7f3eb);
+    box-shadow: 0 14px 34px rgba(77, 58, 37, .06);
+}
+
+.results-section > .empty-state h2 { margin: .6rem 0 .45rem; }
+.results-section > .empty-state p { margin-bottom: 1rem; }
