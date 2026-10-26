@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using PetFinder.BLL;
 using PetFinder.Web.Middleware;
 using PetFinder.Web.ViewModels;
+using Microsoft.AspNetCore.StaticFiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +37,10 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+var staticContentTypes = new FileExtensionContentTypeProvider();
+staticContentTypes.Mappings[".glb"] = "model/gltf-binary";
+staticContentTypes.Mappings[".gltf"] = "model/gltf+json";
+app.UseStaticFiles(new StaticFileOptions { ContentTypeProvider = staticContentTypes });
 app.UseRouting();
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseAuthentication();

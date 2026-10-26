@@ -551,3 +551,79 @@ html.js-enabled .search-story-progress > span { transform: scaleX(0); }
 @media (prefers-reduced-motion: reduce) {
     html.js-enabled .search-story-progress > span { transform: scaleX(1); }
 }
+
+
+/* Entrada con IntersectionObserver cuando GSAP/ScrollTrigger no están disponibles */
+html.motion-fallback [data-reveal],
+html.motion-fallback [data-story-step] {
+    transition: opacity 720ms var(--motion-ease-out), transform 720ms var(--motion-ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+}
+
+html.motion-fallback .reveal-pending {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+}
+
+html.motion-fallback .reveal-pending[data-reveal="left"] { transform: translate3d(-28px, 0, 0); }
+html.motion-fallback .reveal-pending[data-reveal="right"] { transform: translate3d(28px, 0, 0); }
+html.motion-fallback .reveal-pending[data-reveal="scale"] { transform: scale(.94); }
+html.motion-fallback .reveal-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+    html.motion-fallback [data-reveal],
+    html.motion-fallback [data-story-step] {
+        transition: none !important;
+        will-change: auto;
+    }
+    html.motion-fallback .reveal-pending { opacity: 1; transform: none; }
+}
+
+
+/* Fallback vectorial del hero: la misma pareja visible mientras cargan ambos modelos */
+.hero-art .pet-illustration {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.hero-art .hero-fallback-pet {
+    position: absolute;
+    bottom: 3%;
+    display: block;
+    height: auto;
+    max-height: 88%;
+    object-fit: contain;
+    filter: drop-shadow(0 12px 14px rgba(74, 55, 40, .08));
+    transform-origin: 50% 100%;
+}
+
+.hero-art .hero-fallback-dog { left: 4%; width: min(53%, 285px); }
+.hero-art .hero-fallback-cat { right: 3%; width: min(50%, 270px); }
+
+html.js-enabled .hero-art:not(.scene-ready) .hero-fallback-dog { animation: fallback-dog-idle 4.8s ease-in-out infinite; }
+html.js-enabled .hero-art:not(.scene-ready) .hero-fallback-cat { animation: fallback-cat-idle 5.3s ease-in-out infinite; }
+
+@keyframes fallback-dog-idle {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-6px) rotate(-.6deg); }
+}
+
+@keyframes fallback-cat-idle {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-5px) rotate(.6deg); }
+}
+
+@media (max-width: 575.98px) {
+    .hero-art .hero-fallback-dog { left: 1%; width: min(54%, 230px); }
+    .hero-art .hero-fallback-cat { right: 1%; width: min(51%, 218px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-art .hero-fallback-pet { animation: none !important; }
+}
