@@ -29,6 +29,10 @@ export function initImageReveal() {
         wrapper.classList.add('is-loading');
 
         const fallback = image.dataset.imageFallback;
+        const placeholder = image.dataset.imagePlaceholder;
+        let fallbackStage = 0;
+        let slowLoadTimer = 0;
+        let loadWatchObserver = null;
         const reveal = () => {
             if (reducedMotion.matches) {
                 revealWithCss(wrapper);
@@ -63,10 +67,19 @@ export function initImageReveal() {
         };
 
         const handleError = () => {
-            if (fallback && image.dataset.fallbackAttempted !== 'true') {
+            window.clearTimeout(slowLoadTimer);
+            loadWatchObserver?.disconnect();
+            if (fallbackStage === 0 && fallback) {
+                fallbackStage = 1;
                 image.dataset.fallbackAttempted = 'true';
                 image.removeAttribute('srcset');
                 image.src = fallback;
+                return;
+            }
+            if (fallbackStage === 1 && placeholder) {
+                fallbackStage = 2;
+                image.removeAttribute('srcset');
+                image.src = placeholder;
                 return;
             }
             wrapper.classList.remove('is-loading');
@@ -74,6 +87,8 @@ export function initImageReveal() {
         };
 
         const handleLoad = () => {
+            window.clearTimeout(slowLoadTimer);
+            loadWatchObserver?.disconnect();
             if (!image.naturalWidth) {
                 handleError();
                 return;
@@ -87,6 +102,24 @@ export function initImageReveal() {
         if (!image.getAttribute('src')?.trim() && !image.currentSrc) {
             handleError();
             return;
+        }
+        const timeoutMs = Number(image.dataset.imageTimeout);
+        if (timeoutMs > 0 && fallback) {
+            const armSlowLoadTimer = () => {
+                slowLoadTimer = window.setTimeout(() => {
+                    if (!image.naturalWidth && fallbackStage === 0) handleError();
+                }, timeoutMs);
+            };
+            if ('IntersectionObserver' in window) {
+                loadWatchObserver = new IntersectionObserver((entries, observer) => {
+                    if (!entries.some((entry) => entry.isIntersecting)) return;
+                    observer.disconnect();
+                    if (!image.complete && !image.naturalWidth) armSlowLoadTimer();
+                }, { rootMargin: '160px' });
+                loadWatchObserver.observe(image);
+            } else {
+                armSlowLoadTimer();
+            }
         }
         if (image.complete) {
             if (image.naturalWidth) handleLoad();

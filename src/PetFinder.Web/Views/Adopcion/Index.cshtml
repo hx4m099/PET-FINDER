@@ -57,11 +57,18 @@
         <div class="adoption-grid">
             @foreach (var mascota in Model.Mascotas)
             {
+                var photoFallback = mascota.Especie switch
+                {
+                    Especie.Perro => Url.Content("~/img/demo/perro-1.jpg"),
+                    Especie.Gato => Url.Content("~/img/demo/gato-1.jpg"),
+                    _ => Url.Content("~/img/especies/" + mascota.Especie.ToString().ToLowerInvariant() + ".svg")
+                };
+                var speciesFallback = Url.Content("~/img/especies/" + mascota.Especie.ToString().ToLowerInvariant() + ".svg");
                 <div class="adoption-grid__item">
                     <article class="pet-card">
                         <a asp-action="Detalle" asp-route-id="@mascota.Id" class="pet-card-image">
                             <span class="img-reveal" data-image-reveal>
-                                <img src="@mascota.FotoUrl" alt="Foto de @mascota.Nombre" loading="lazy" decoding="async" width="640" height="480" data-image-fallback="@Url.Content("~/img/especies/" + mascota.Especie.ToString().ToLowerInvariant() + ".svg")" />
+                                <img src="@mascota.FotoUrl" alt="Foto de @mascota.Nombre" loading="lazy" decoding="async" width="640" height="480" data-image-fallback="@photoFallback" data-image-placeholder="@speciesFallback" data-image-timeout="6500" />
                             </span>
                             <span class="status-pill">Disponible</span>
                         </a>
