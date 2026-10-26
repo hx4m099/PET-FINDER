@@ -6,7 +6,7 @@ const REVEAL_DURATION = 0.72;
 const STAGGER_SECONDS = 0.1;
 
 export function initReveal() {
-    const revealSelector = '[data-reveal], .section-heading, [data-story-step], .site-footer .footer-grid, .site-footer .footer-bottom';
+    const revealSelector = '[data-reveal], .section-heading, .site-footer .footer-grid, .site-footer .footer-bottom';
     const elements = [...document.querySelectorAll(revealSelector)]
         .filter((element) => !element.closest('#hero'));
     const gsap = window.gsap;

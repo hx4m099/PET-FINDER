@@ -1,7 +1,6 @@
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
-const REVEAL_START = 'top 92%';
-const REVEAL_DURATION = 0.55;
-const STAGGER_SECONDS = 0.1;
+const REVEAL_DURATION = 0.48;
+const STAGGER_SECONDS = 0.07;
 
 export function initImageReveal() {
     const reducedMotion = window.matchMedia(REDUCED_MOTION);
@@ -37,19 +36,19 @@ export function initImageReveal() {
             }
 
             const gsap = window.gsap;
-            const scrollTrigger = window.ScrollTrigger;
-            if (gsap && scrollTrigger) {
-                gsap.registerPlugin(scrollTrigger);
+            if (gsap) {
+                const siblings = [...(wrapper.parentElement?.querySelectorAll(':scope > .img-reveal') ?? [])];
+                const delay = Math.min(Math.max(siblings.indexOf(wrapper), 0), 4) * STAGGER_SECONDS;
                 gsap.fromTo(image,
-                    { clipPath: 'inset(0 100% 0 0)', scale: 1.08, opacity: 0.94 },
+                    { clipPath: 'inset(0 100% 0 0)', scale: 1.035, opacity: 0.98 },
                     {
                         clipPath: 'inset(0 0 0 0)',
                         scale: 1,
                         opacity: 1,
                         duration: REVEAL_DURATION,
-                        ease: 'power3.out',
+                        delay,
+                        ease: 'power2.out',
                         clearProps: 'clipPath,transform,opacity',
-                        scrollTrigger: { trigger: wrapper, start: REVEAL_START, once: true, invalidateOnRefresh: true },
                         onStart: () => wrapper.classList.remove('is-loading'),
                         onComplete: () => revealWithCss(wrapper)
                     });
@@ -80,8 +79,7 @@ export function initImageReveal() {
                 return;
             }
             wrapper.classList.remove('is-error');
-            const decoded = typeof image.decode === 'function' ? image.decode().catch(() => undefined) : Promise.resolve();
-            decoded.then(reveal);
+            reveal();
         };
 
         image.addEventListener('load', handleLoad);

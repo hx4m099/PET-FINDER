@@ -44,23 +44,21 @@ export function initScrollStory() {
                 scrollTrigger: {
                     trigger: story,
                     start: 'top top+=82',
-                    end: () => `+=${Math.round(window.innerHeight * 1.55)}`,
+                    end: () => `+=${Math.round(window.innerHeight * 2)}`,
                     pin: story,
                     pinSpacing: true,
-                    scrub: 0.65,
-                    anticipatePin: 1,
+                    scrub: 0.75,
+                    anticipatePin: 0.5,
                     invalidateOnRefresh: true
                 }
             });
             timeline.fromTo(progress, { scaleX: 0 }, { scaleX: 1, ease: 'none', duration: 1 }, 0);
             steps.forEach((step, index) => {
-                const position = index * 0.32;
+                const position = index * 0.31;
                 timeline.fromTo(step,
-                    { y: 18, autoAlpha: 0.58 },
-                    { y: 0, autoAlpha: 1, duration: 0.24, ease: 'power3.out' },
+                    { y: 12, autoAlpha: 0.76, scale: 0.99 },
+                    { y: 0, autoAlpha: 1, scale: 1, duration: 0.34, ease: 'power2.out' },
                     position);
-                timeline.to(step, { scale: 1.018, duration: 0.12, ease: 'power2.out' }, position + 0.22);
-                timeline.to(step, { scale: 1, duration: 0.14, ease: 'power2.out' }, position + 0.34);
             });
         });
     });

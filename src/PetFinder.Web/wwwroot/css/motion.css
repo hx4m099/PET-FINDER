@@ -52,9 +52,9 @@
 }
 
 .img-reveal[data-image-prepared="true"]:not(.is-revealed) > img {
-    clip-path: inset(0 100% 0 0);
-    transform: scale(1.08);
-    opacity: .94;
+    clip-path: none;
+    transform: none;
+    opacity: 1;
 }
 
 .img-reveal.is-revealed > img {
