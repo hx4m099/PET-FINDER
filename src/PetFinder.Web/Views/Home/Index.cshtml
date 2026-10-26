@@ -1,29 +1,41 @@
+@model PetFinder.Web.ViewModels.HomeViewModel
 @{
     ViewData["Title"] = "Encuentra, ayuda, adopta";
 }
-<section class="hero-section">
+<section id="hero" class="hero-section" data-scroll-section aria-labelledby="home-title">
     <div class="container hero-grid">
         <div class="hero-copy">
             <span class="eyebrow"><span class="eyebrow-dot"></span> Una comunidad que cuida</span>
-            <h1>Una huella perdida.<br /><span>Un hogar por encontrar.</span></h1>
-            <p class="hero-lead">Conectamos familias, personas solidarias y refugios para que cada mascota encuentre el camino de vuelta o una nueva familia.</p>
-            <div class="hero-actions"><a class="btn btn-primary btn-lg" asp-controller="Reportes" asp-action="Crear">Buscar una mascota</a><a class="btn btn-soft btn-lg" asp-controller="Adopcion" asp-action="Index">Conocer para adoptar</a></div>
+            <h1 id="home-title">Pequeñas acciones.<br /><span>Grandes reencuentros.</span></h1>
+            <p class="hero-lead">En Valledupar, conectamos familias, personas solidarias y refugios para que cada mascota encuentre el camino de vuelta o una nueva familia.</p>
+            <div class="hero-actions"><a class="btn btn-primary btn-lg" asp-controller="Reportes" asp-action="Crear">Buscar una mascota <span aria-hidden="true">↗</span></a><a class="btn btn-soft btn-lg" asp-controller="Adopcion" asp-action="Index">Conocer para adoptar <span aria-hidden="true">↗</span></a></div>
             <div class="hero-note"><span aria-hidden="true">✦</span> Cerca de ti, con el apoyo de refugios aliados.</div>
         </div>
-        <div class="hero-art" aria-label="Ilustración decorativa de mascotas">
-            <div class="hero-art-glow"></div><div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div><div class="paw-mark paw-one" aria-hidden="true">🐾</div><div class="paw-mark paw-two" aria-hidden="true">🐾</div>
+        <div class="hero-art" role="img" aria-label="Ilustración decorativa de mascotas">
+            <div class="hero-art-glow" data-parallax="0.22"></div><div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div><div class="paw-mark paw-one" aria-hidden="true" data-parallax="0.38">🐾</div><div class="paw-mark paw-two" aria-hidden="true" data-parallax="0.3">🐾</div>
             <div class="pet-illustration" aria-hidden="true"><div class="pet-sun"></div><div class="pet-card pet-dog"><span>🐶</span></div><div class="pet-card pet-cat"><span>🐱</span></div><div class="pet-heart">♡</div></div>
-            <div class="floating-note note-top"><span class="note-icon">⌕</span><span><strong>Buscando</strong><small>Una nueva coincidencia</small></span></div><div class="floating-note note-bottom"><span class="note-icon note-icon-green">♥</span><span><strong>Adopción responsable</strong><small>Con refugios aliados</small></span></div>
+            <div class="floating-note note-top"><span class="note-icon" aria-hidden="true">⌕</span><span><strong>Buscando</strong><small>Una nueva coincidencia</small></span></div><div class="floating-note note-bottom"><span class="note-icon note-icon-green" aria-hidden="true">♥</span><span><strong>Adopción responsable</strong><small>Con refugios aliados</small></span></div>
             <div class="hero-3d-canvas" data-scene="landing" aria-hidden="true"></div>
         </div>
     </div>
+    <div class="hero-scroll-cue" aria-hidden="true"><span></span> Desliza para explorar</div>
 </section>
-<section class="trust-strip"><div class="container trust-items"><div><strong>01</strong><span>Reporta con una foto</span></div><div><strong>02</strong><span>Conecta con coincidencias</span></div><div><strong>03</strong><span>Visita un refugio aliado</span></div></div></section>
-<section class="section container home-cards"><div class="section-heading"><span class="eyebrow">¿Cómo podemos ayudarte?</span><h2>Dos caminos, un mismo amor</h2></div><div class="row g-4">
-    <div class="col-md-6"><article class="feature-card feature-lost"><div class="feature-icon">⌕</div><h3>¿Se perdió tu compañero?</h3><p>Publica un reporte claro y encuentra avisos recientes de la misma especie y ciudad.</p><a asp-controller="Reportes" asp-action="Crear" class="text-link">Crear un reporte <span aria-hidden="true">→</span></a></article></div>
-    <div class="col-md-6"><article class="feature-card feature-adopt"><div class="feature-icon">♡</div><h3>¿Listo para abrir tu hogar?</h3><p>Conoce mascotas disponibles en refugios aliados y solicita una visita presencial.</p><a asp-controller="Adopcion" asp-action="Index" class="text-link">Explorar adopciones <span aria-hidden="true">→</span></a></article></div>
-</div></section>
+
+@await Html.PartialAsync("_StatsSection", Model)
+@await Html.PartialAsync("_PasosSection")
+@await Html.PartialAsync("_MapaRefugios", Model)
+@await Html.PartialAsync("_MascotasSection", Model)
+@await Html.PartialAsync("_TableroSection", Model)
+@await Html.PartialAsync("_HistoriasSection")
+@await Html.PartialAsync("_FaqSection")
+@await Html.PartialAsync("_FinalCtaSection")
+
+@section Head {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous" />
+}
 
 @section Scripts {
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
     <script type="module" src="~/js/three/landing-scene.js" asp-append-version="true"></script>
+    <script type="module" src="~/js/scroll/main.js" asp-append-version="true"></script>
 }

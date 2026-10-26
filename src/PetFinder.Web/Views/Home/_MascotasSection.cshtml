@@ -1,0 +1,28 @@
+@model PetFinder.Web.ViewModels.HomeViewModel
+@using PetFinder.Entity.Entities
+<section id="adopciones" class="featured-section page-section" data-scroll-section aria-labelledby="featured-title">
+    <div class="container">
+        <div class="section-heading section-heading-split" data-reveal>
+            <div><span class="eyebrow">Una historia espera por ti</span><h2 id="featured-title">Conoce a quienes buscan <em>hogar.</em></h2></div>
+            <a class="arrow-link" asp-controller="Adopcion" asp-action="Index">Ver todas las mascotas <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="featured-grid">
+            @foreach (var mascota in Model.MascotasDestacadas)
+            {
+                var edad = mascota.EdadMeses is null ? "Edad por confirmar" : mascota.EdadMeses < 12 ? $"{mascota.EdadMeses} meses" : $"{mascota.EdadMeses / 12} años";
+                <article class="featured-pet-card" data-reveal data-tilt-card>
+                    <a class="featured-pet-photo" asp-controller="Adopcion" asp-action="Detalle" asp-route-id="@mascota.Id" tabindex="-1" aria-hidden="true">
+                        <img src="@mascota.FotoUrl" alt="Fotografía ilustrativa de @mascota.Nombre" loading="lazy" decoding="async" data-image-fallback />
+                        <span class="pet-photo-kind">@(mascota.Especie == PetFinder.Entity.Enums.Especie.Perro ? "Perro" : "Gato")</span>
+                    </a>
+                    <button class="favorite-button" type="button" data-favorite-button data-favorite-id="@mascota.Id" aria-pressed="false" aria-label="Guardar a @mascota.Nombre en favoritos"><span aria-hidden="true">♡</span></button>
+                    <div class="featured-pet-copy"><div class="featured-pet-title"><h3>@mascota.Nombre</h3><span>@edad</span></div><p>@mascota.Raza · Valledupar</p><a class="arrow-link" asp-controller="Adopcion" asp-action="Detalle" asp-route-id="@mascota.Id">Conocer su historia <span aria-hidden="true">↗</span></a></div>
+                </article>
+            }
+        </div>
+        @if (!Model.MascotasDestacadas.Any())
+        {
+            <div class="empty-state"><h3>Pronto habrá nuevas historias</h3><p>Vuelve a visitar el catálogo para conocer mascotas disponibles.</p><a class="btn btn-primary" asp-controller="Adopcion" asp-action="Index">Ir al catálogo</a></div>
+        }
+    </div>
+</section>

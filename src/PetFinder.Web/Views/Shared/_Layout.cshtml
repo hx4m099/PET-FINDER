@@ -3,30 +3,35 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#fff8ef" />
+    <meta name="theme-color" content="#FBF6EE" />
     <title>@ViewData["Title"] · PetFinder</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,500..900;1,9..144,500..900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PetFinder.Web.styles.css" asp-append-version="true" />
     <script type="importmap">
         { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }
     </script>
+    @await RenderSectionAsync("Head", required: false)
 </head>
-<body>
+<body id="page-top">
+    <div class="scroll-progress" data-scroll-progress role="progressbar" aria-label="Progreso de lectura" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
     <a class="skip-link" href="#main-content">Saltar al contenido</a>
-    <header class="site-header">
+    <header class="site-header" data-smart-header>
         <nav class="navbar navbar-expand-lg container" aria-label="Navegación principal">
             <a class="navbar-brand brand-lockup" asp-controller="Home" asp-action="Index"><span class="brand-mark" aria-hidden="true">🐾</span><span>Pet<span>Finder</span></span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Abrir menú"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav mx-auto nav-main">
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index" asp-fragment="pasos" data-scrollspy>Cómo funciona</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index" asp-fragment="refugios" data-scrollspy>Refugios</a></li>
                     <li class="nav-item"><a class="nav-link" asp-controller="Adopcion" asp-action="Index">Adopción</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index" asp-fragment="comunidad" data-scrollspy>Comunidad</a></li>
                     @if (User.Identity?.IsAuthenticated == true)
                     {
-                        <li class="nav-item"><a class="nav-link" asp-controller="Reportes" asp-action="Crear">Reportar mascota</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Reportes" asp-action="Crear">Reportar</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Citas" asp-action="Index">Mis citas</a></li>
                         @if (User.IsInRole("Refugio")) { <li class="nav-item"><a class="nav-link" asp-controller="PanelRefugio" asp-action="Index">Panel del refugio</a></li> }
                         @if (User.IsInRole("Administrador")) { <li class="nav-item"><a class="nav-link" asp-controller="PanelAdministrador" asp-action="Index">Administración</a></li> }
@@ -51,7 +56,14 @@
         @if (TempData["Mensaje"] is string mensaje) { <div class="container mt-3"><div class="alert alert-success" role="status">@mensaje</div></div> }
         @RenderBody()
     </main>
-    <footer class="site-footer"><div class="container footer-inner"><a class="brand-lockup" asp-controller="Home" asp-action="Index"><span class="brand-mark" aria-hidden="true">🐾</span><span>Pet<span>Finder</span></span></a><p>Con cariño, por quienes siempre están a nuestro lado.</p><small>© @DateTime.Now.Year PetFinder · Adopción responsable y búsqueda solidaria.</small></div></footer>
+    <footer class="site-footer" aria-label="Pie de página">
+        <div class="container footer-grid">
+            <div class="footer-brand"><a class="brand-lockup" asp-controller="Home" asp-action="Index"><span class="brand-mark" aria-hidden="true">🐾</span><span>Pet<span>Finder</span></span></a><p>Con cariño, por quienes siempre están a nuestro lado.</p></div>
+            <div class="footer-column"><strong>Explora</strong><a asp-controller="Adopcion" asp-action="Index">Adopción responsable</a><a asp-controller="Home" asp-action="Index" asp-fragment="refugios">Refugios aliados</a><a asp-controller="Home" asp-action="Index" asp-fragment="historias">Historias de ejemplo</a></div>
+            <div class="footer-column"><strong>Participa</strong><a asp-controller="Reportes" asp-action="Crear">Publicar un aviso</a><a asp-controller="Home" asp-action="Index" asp-fragment="preguntas">Preguntas frecuentes</a><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">Datos del mapa: OpenStreetMap</a></div>
+        </div>
+        <div class="container footer-bottom"><small>© @DateTime.Now.Year PetFinder · Demo educativa para Valledupar, Cesar; los perfiles, ubicaciones, contactos e historias son ficticios.</small><a class="back-to-top" href="#page-top" data-back-to-top aria-label="Volver arriba">↑ <span>Volver arriba</span></a></div>
+    </footer>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

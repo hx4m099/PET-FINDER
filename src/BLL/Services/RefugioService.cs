@@ -7,6 +7,7 @@ namespace PetFinder.BLL.Services;
 /// <summary>Prepara los refugios aliados para su exposición pública en el mapa.</summary>
 public sealed class RefugioService(IRefugioRepository refugioRepository, IMascotaRepository mascotaRepository) : IRefugioService
 {
+    private const string CiudadMapa = "Valledupar";
     private const double RadioTierraKm = 6371.0088;
 
     /// <inheritdoc />
@@ -35,7 +36,9 @@ public sealed class RefugioService(IRefugioRepository refugioRepository, IMascot
         var mascotasPorRefugio = mascotasDisponibles.ToLookup(mascota => mascota.RefugioId);
 
         var ubicaciones = refugios
-            .Where(TieneCoordenadasValidas)
+            .Where(refugio => refugio.Activo
+                && string.Equals(refugio.Ciudad, CiudadMapa, StringComparison.OrdinalIgnoreCase)
+                && TieneCoordenadasValidas(refugio))
             .Select(refugio => CrearDto(refugio, mascotasPorRefugio[refugio.Id].ToArray()))
             .ToArray();
 

@@ -110,7 +110,7 @@ public sealed class ReportesController(
     }
 
     /// <summary>Busca y ordena los reportes opuestos más parecidos al reporte indicado.</summary>
-    [HttpGet]
+    [AllowAnonymous, HttpGet]
     public async Task<IActionResult> Resultados(Guid id, CancellationToken cancellationToken)
     {
         var coincidencias = await coincidenciaService.BuscarParaReporteAsync(id, cancellationToken: cancellationToken);

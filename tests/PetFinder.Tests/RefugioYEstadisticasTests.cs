@@ -14,10 +14,14 @@ public sealed class RefugioYEstadisticasTests
         var valido = Refugio(Guid.Parse("00000000-0000-0000-0000-000000000001"), 10.46m, -73.25m);
         var latitudInvalida = Refugio(Guid.Parse("00000000-0000-0000-0000-000000000002"), 91m, -73.25m);
         var sinUbicacion = Refugio(Guid.Parse("00000000-0000-0000-0000-000000000003"), null, null);
+        var inactivo = Refugio(Guid.Parse("00000000-0000-0000-0000-000000000004"), 10.45m, -73.24m);
+        inactivo.Activo = false;
+        var otraCiudad = Refugio(Guid.Parse("00000000-0000-0000-0000-000000000005"), 10.47m, -73.26m);
+        otraCiudad.Ciudad = "Riohacha";
         var refugios = new Mock<IRefugioRepository>(MockBehavior.Strict);
         var mascotas = new Mock<IMascotaRepository>(MockBehavior.Strict);
         refugios.Setup(repo => repo.ObtenerTodosAsync(true, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new[] { valido, latitudInvalida, sinUbicacion });
+            .ReturnsAsync(new[] { valido, latitudInvalida, sinUbicacion, inactivo, otraCiudad });
         mascotas.Setup(repo => repo.ObtenerDisponiblesAdopcionAsync(null, null, null, null, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new[]
             {

@@ -1,0 +1,33 @@
+@model PetFinder.Web.ViewModels.HomeViewModel
+<section id="comunidad" class="community-section page-section" data-scroll-section aria-labelledby="community-title">
+    <div class="community-pattern" aria-hidden="true" data-parallax></div>
+    <div class="container community-content">
+        <div class="section-heading section-heading-split" data-reveal>
+            <div><span class="eyebrow eyebrow-light">La comunidad se mueve</span><h2 id="community-title">Un aviso puede <em>cambiarlo todo.</em></h2><p>Revisa reportes activos y comparte información con cuidado.</p></div>
+            <a class="btn btn-light-outline" asp-controller="Reportes" asp-action="Crear">Publica un aviso <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="board-toolbar" role="group" aria-label="Filtrar avisos por especie" data-reveal>
+            <button type="button" class="board-filter is-active" data-report-filter="all" aria-pressed="true">Todos</button>
+            <button type="button" class="board-filter" data-report-filter="perro" aria-pressed="false">Perros</button>
+            <button type="button" class="board-filter" data-report-filter="gato" aria-pressed="false">Gatos</button>
+            <span id="board-filter-status" class="visually-hidden" role="status" aria-live="polite"></span>
+        </div>
+        <div id="community-board" class="community-grid">
+            @foreach (var aviso in Model.AvisosRecientes)
+            {
+                var tipo = aviso.Tipo == PetFinder.Entity.Enums.TipoReporte.Perdida ? "Perdida" : "Encontrada";
+                var nombre = string.IsNullOrWhiteSpace(aviso.NombreMascota) ? "Sin nombre" : aviso.NombreMascota;
+                <article class="community-card" data-report-card data-species="@aviso.Especie.ToString().ToLowerInvariant()" data-reveal>
+                    <div class="community-card-top"><span class="report-type">@(tipo == "Perdida" ? "Se busca" : "Encontrada")</span><span class="report-species">@aviso.Especie</span></div>
+                    <span class="community-icon" aria-hidden="true">@(aviso.Especie == PetFinder.Entity.Enums.Especie.Perro ? "🐕" : "🐈")</span>
+                    <h3>@nombre</h3><p>@aviso.Ciudad · @aviso.Raza</p><p class="community-description">@aviso.Descripcion</p>
+                    <a class="arrow-link arrow-link-light" asp-controller="Reportes" asp-action="Resultados" asp-route-id="@aviso.Id">Ver aviso <span aria-hidden="true">↗</span></a>
+                </article>
+            }
+        </div>
+        @if (!Model.AvisosRecientes.Any())
+        {
+            <p class="community-empty">No hay reportes activos para mostrar por ahora. Puedes publicar el primero.</p>
+        }
+    </div>
+</section>
