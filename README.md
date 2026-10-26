@@ -104,10 +104,22 @@ Los correos `@petfinder.local` del seed son datos demostrativos. El campo `Passw
 - El módulo usa una versión fija de Three.js por import map, solo se carga en la landing, limita la densidad de píxeles y suspende la animación cuando sale de pantalla o el usuario prefiere movimiento reducido.
 - Si WebGL o el CDN no están disponibles, permanece la ilustración CSS/emoji estática como fallback; la escena no contiene controles ni contenido que requiera interacción.
 
+## Qué incluye la Fase 5
+
+- Proyecto `tests/PetFinder.Tests` con xUnit, Moq y referencias limitadas a BLL y ENTITY.
+- 29 pruebas cubren autenticación/PBKDF2, validaciones, filtros y orden de coincidencias, disponibilidad del catálogo, reportes, reservas y cruces de horario, transiciones de citas y autorización de refugio/administración.
+- Los casos usan repositorios simulados y un `TimeProvider` congelado para mantener resultados deterministas.
+
 ## Compilar
 
 ```powershell
 dotnet build PetFinder.sln --configuration Release
+```
+
+Para ejecutar la suite de pruebas:
+
+```powershell
+dotnet test PetFinder.sln --configuration Release
 ```
 
 Para iniciar la aplicación local en Development desde PowerShell:
@@ -118,7 +130,7 @@ dotnet run --project src/PetFinder.Web/PetFinder.Web.csproj
 
 Al iniciar en Development, usa “Acceso de demostración local” en el login para explorar los tres roles con los usuarios seed. Ese selector no está disponible fuera de Development y las cuentas seed no tienen contraseñas.
 
-Con Visual Studio también puedes compilar con **Build → Build Solution**. Las pruebas unitarias xUnit/Moq sobre BLL están previstas para la Fase 5.
+Con Visual Studio puedes compilar con **Build → Build Solution** o ejecutar los tests desde **Test → Run All Tests**.
 
 ## Inicialización y flujo de GitHub
 
@@ -179,9 +191,9 @@ El `.gitignore` excluye `appsettings.Development.json`, uploads locales y archiv
 | Fase | Alcance | Estado |
 |---|---|---|
 | 1 | ENTITY, DATOS y DAL; repositorios en memoria | Implementada y publicada |
-| 2 | BLL, reglas, servicios, DTOs y similitud simulada | Implementada y verificada; sin pruebas xUnit todavía |
+| 2 | BLL, reglas, servicios, DTOs y similitud simulada | Implementada y verificada |
 | 3 | ASP.NET Core MVC, vistas y autenticación simulada | Implementada; build y smoke HTTP verificados |
 | 4 | Escenas Three.js y animaciones accesibles | Implementada; build y asset HTTP verificados |
-| 5 | Pruebas unitarias xUnit + Moq sobre BLL | Pendiente |
+| 5 | Pruebas unitarias xUnit + Moq sobre BLL | Implementada; 29/29 pruebas aprobadas |
 
 Al conectar Oracle en una fase posterior se configurará `PetFinderDbContext` con el proveedor `Oracle.EntityFrameworkCore` desde el registro de servicios de `AddDal()`, sustituyendo los repositorios en memoria sin cambiar BLL ni la GUI. Las credenciales de Oracle deberán ir en User Secrets o en configuración local ignorada por Git.
