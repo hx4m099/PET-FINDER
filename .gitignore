@@ -6,6 +6,15 @@
 # dotenv files
 .env
 
+# Local working files used for validation and drafts.
+.work/
+
+# Local application settings and secrets; keep the example configuration versioned.
+**/appsettings.Development.json
+**/appsettings.*.local.json
+**/secrets*.json
+!**/appsettings.example.json
+
 # User-specific files
 *.rsuser
 *.suo
