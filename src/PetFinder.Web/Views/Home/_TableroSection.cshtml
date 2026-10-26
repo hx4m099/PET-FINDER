@@ -18,8 +18,8 @@
                 var tipo = aviso.Tipo == PetFinder.Entity.Enums.TipoReporte.Perdida ? "Perdida" : "Encontrada";
                 var nombre = string.IsNullOrWhiteSpace(aviso.NombreMascota) ? "Sin nombre" : aviso.NombreMascota;
                 <article class="community-card" data-report-card data-species="@aviso.Especie.ToString().ToLowerInvariant()" data-reveal>
+                    <div class="community-card-photo"><span class="img-reveal" data-image-reveal><img src="@aviso.FotoUrl" alt="Fotografía del aviso de @nombre" loading="lazy" decoding="async" width="640" height="480" data-image-fallback="@Url.Content("~/img/especies/" + aviso.Especie.ToString().ToLowerInvariant() + ".svg")" /></span></div>
                     <div class="community-card-top"><span class="report-type">@(tipo == "Perdida" ? "Se busca" : "Encontrada")</span><span class="report-species">@aviso.Especie</span></div>
-                    <span class="community-icon" aria-hidden="true">@(aviso.Especie == PetFinder.Entity.Enums.Especie.Perro ? "🐕" : "🐈")</span>
                     <h3>@nombre</h3><p>@aviso.Ciudad · @aviso.Raza</p><p class="community-description">@aviso.Descripcion</p>
                     <a class="arrow-link arrow-link-light" asp-controller="Reportes" asp-action="Resultados" asp-route-id="@aviso.Id">Ver aviso <span aria-hidden="true">↗</span></a>
                 </article>

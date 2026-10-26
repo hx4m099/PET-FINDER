@@ -12,7 +12,7 @@
                 var edad = mascota.EdadMeses is null ? "Edad por confirmar" : mascota.EdadMeses < 12 ? $"{mascota.EdadMeses} meses" : $"{mascota.EdadMeses / 12} años";
                 <article class="featured-pet-card" data-reveal data-tilt-card>
                     <a class="featured-pet-photo" asp-controller="Adopcion" asp-action="Detalle" asp-route-id="@mascota.Id" tabindex="-1" aria-hidden="true">
-                        <img src="@mascota.FotoUrl" alt="Fotografía ilustrativa de @mascota.Nombre" loading="lazy" decoding="async" data-image-fallback />
+                        <span class="img-reveal" data-image-reveal><img src="@mascota.FotoUrl" alt="Fotografía ilustrativa de @mascota.Nombre" loading="lazy" decoding="async" width="640" height="480" data-image-fallback="@Url.Content("~/img/especies/" + mascota.Especie.ToString().ToLowerInvariant() + ".svg")" /></span>
                         <span class="pet-photo-kind">@(mascota.Especie == PetFinder.Entity.Enums.Especie.Perro ? "Perro" : "Gato")</span>
                     </a>
                     <button class="favorite-button" type="button" data-favorite-button data-favorite-id="@mascota.Id" aria-pressed="false" aria-label="Guardar a @mascota.Nombre en favoritos"><span aria-hidden="true">♡</span></button>

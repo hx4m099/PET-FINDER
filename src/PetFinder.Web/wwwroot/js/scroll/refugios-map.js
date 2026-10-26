@@ -45,10 +45,15 @@ function makeElement(tag, className, text) {
 function makePopup(item) {
     const card = makeElement('article', 'map-popup-card');
     const image = document.createElement('img');
-    image.src = item.fotoUrl || '';
-    image.alt = '';
+    image.src = item.fotoUrl || '/img/especies/otro.svg';
+    image.alt = `Fotografía de ${item.nombre || 'un refugio aliado'}`;
     image.loading = 'lazy';
-    image.addEventListener('error', () => image.classList.add('is-fallback'), { once: true });
+    image.decoding = 'async';
+    image.width = 640;
+    image.height = 360;
+    image.dataset.imageReveal = 'true';
+    image.dataset.imageFallback = '/img/especies/otro.svg';
+    if (!item.fotoUrl) image.dataset.fallbackAttempted = 'true';
     card.append(image);
 
     const title = makeElement('h3', '', item.nombre || 'Refugio aliado');

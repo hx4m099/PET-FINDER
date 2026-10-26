@@ -21,7 +21,15 @@
         <div class="row g-4 pet-grid">
         @foreach (var mascota in Model.Mascotas)
         {
-            <div class="col-sm-6 col-lg-4"><article class="pet-card"><a asp-action="Detalle" asp-route-id="@mascota.Id" class="pet-card-image"><img src="@mascota.FotoUrl" alt="Foto de @mascota.Nombre" loading="lazy" /><span class="status-pill">Disponible</span></a><div class="pet-card-body"><span class="eyebrow">@mascota.Especie · @mascota.Ciudad</span><h2>@mascota.Nombre</h2><p>@(string.IsNullOrWhiteSpace(mascota.Raza) ? "Sin raza definida" : mascota.Raza) · @(mascota.EdadMeses.HasValue ? $"{mascota.EdadMeses} meses" : "Edad por conocer")</p><a class="text-link" asp-action="Detalle" asp-route-id="@mascota.Id">Conocer a @mascota.Nombre →</a></div></article></div>
+            <div class="col-sm-6 col-lg-4">
+                <article class="pet-card">
+                    <a asp-action="Detalle" asp-route-id="@mascota.Id" class="pet-card-image">
+                        <span class="img-reveal" data-image-reveal><img src="@mascota.FotoUrl" alt="Foto de @mascota.Nombre" loading="lazy" decoding="async" width="640" height="480" data-image-fallback="@Url.Content("~/img/especies/" + mascota.Especie.ToString().ToLowerInvariant() + ".svg")" /></span>
+                        <span class="status-pill">Disponible</span>
+                    </a>
+                    <div class="pet-card-body"><span class="eyebrow">@mascota.Especie · @mascota.Ciudad</span><h2>@mascota.Nombre</h2><p>@(string.IsNullOrWhiteSpace(mascota.Raza) ? "Sin raza definida" : mascota.Raza) · @(mascota.EdadMeses.HasValue ? $"{mascota.EdadMeses} meses" : "Edad por conocer")</p><a class="text-link" asp-action="Detalle" asp-route-id="@mascota.Id">Conocer a @mascota.Nombre →</a></div>
+                </article>
+            </div>
         }
         </div>
     }

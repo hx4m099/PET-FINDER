@@ -15,7 +15,7 @@
         @foreach (var coincidencia in Model)
         {
             <div class="col-md-6"><article class="match-card">
-                <img src="@coincidencia.Reporte.FotoUrl" alt="Foto del reporte de mascota @coincidencia.Reporte.NombreMascota" loading="lazy" />
+                <span class="img-reveal" data-image-reveal><img src="@coincidencia.Reporte.FotoUrl" alt="Foto del reporte de mascota @coincidencia.Reporte.NombreMascota" loading="lazy" decoding="async" width="800" height="600" data-image-fallback="@Url.Content("~/img/especies/" + coincidencia.Reporte.Especie.ToString().ToLowerInvariant() + ".svg")" /></span>
                 <div class="match-card-body"><div class="d-flex justify-content-between gap-2 align-items-center"><span class="status-pill">@(coincidencia.Reporte.Tipo == PetFinder.Entity.Enums.TipoReporte.Perdida ? "Perdida" : "Encontrada")</span><strong class="match-percent">@coincidencia.PorcentajeSimilitud.ToString("0")%</strong></div>
                     <h2>@(string.IsNullOrWhiteSpace(coincidencia.Reporte.NombreMascota) ? "Sin nombre" : coincidencia.Reporte.NombreMascota)</h2>
                     <p>@coincidencia.Reporte.Especie · @coincidencia.Reporte.Ciudad</p>
