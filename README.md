@@ -98,6 +98,12 @@ Los correos `@petfinder.local` del seed son datos demostrativos. El campo `Passw
 - Resultados de coincidencia con advertencia de similitud simulada, página Mis citas, panel de refugio para crear/editar publicaciones y panel de administración para cuentas/refugios.
 - Middleware global que traduce validación y reglas de negocio a respuestas HTTP seguras. El Web referencia solo `BLL` y `ENTITY`.
 
+## Qué incluye la Fase 4
+
+- Escena decorativa 3D de Three.js con avatares de perro y gato y huellas flotantes en la landing.
+- El módulo usa una versión fija de Three.js por import map, solo se carga en la landing, limita la densidad de píxeles y suspende la animación cuando sale de pantalla o el usuario prefiere movimiento reducido.
+- Si WebGL o el CDN no están disponibles, permanece la ilustración CSS/emoji estática como fallback; la escena no contiene controles ni contenido que requiera interacción.
+
 ## Compilar
 
 ```powershell
@@ -175,7 +181,7 @@ El `.gitignore` excluye `appsettings.Development.json`, uploads locales y archiv
 | 1 | ENTITY, DATOS y DAL; repositorios en memoria | Implementada y publicada |
 | 2 | BLL, reglas, servicios, DTOs y similitud simulada | Implementada y verificada; sin pruebas xUnit todavía |
 | 3 | ASP.NET Core MVC, vistas y autenticación simulada | Implementada; build y smoke HTTP verificados |
-| 4 | Escenas Three.js y animaciones accesibles | Pendiente |
+| 4 | Escenas Three.js y animaciones accesibles | Implementada; build y asset HTTP verificados |
 | 5 | Pruebas unitarias xUnit + Moq sobre BLL | Pendiente |
 
 Al conectar Oracle en una fase posterior se configurará `PetFinderDbContext` con el proveedor `Oracle.EntityFrameworkCore` desde el registro de servicios de `AddDal()`, sustituyendo los repositorios en memoria sin cambiar BLL ni la GUI. Las credenciales de Oracle deberán ir en User Secrets o en configuración local ignorada por Git.
