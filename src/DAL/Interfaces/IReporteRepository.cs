@@ -19,6 +19,9 @@ public interface IReporteRepository
     /// <summary>Obtiene los reportes creados por un usuario.</summary>
     Task<IReadOnlyCollection<ReporteMascota>> ObtenerPorUsuarioAsync(Guid usuarioId, CancellationToken cancellationToken = default);
 
+    /// <summary>Obtiene todos los reportes para consultas administrativas y métricas.</summary>
+    Task<IReadOnlyCollection<ReporteMascota>> ObtenerTodosAsync(CancellationToken cancellationToken = default);
+
     /// <summary>Inserta o actualiza un reporte.</summary>
     Task GuardarAsync(ReporteMascota reporte, CancellationToken cancellationToken = default);
 }

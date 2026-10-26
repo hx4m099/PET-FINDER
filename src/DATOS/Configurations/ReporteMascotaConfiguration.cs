@@ -20,7 +20,9 @@ public sealed class ReporteMascotaConfiguration : IEntityTypeConfiguration<Repor
         builder.Property(reporte => reporte.Ciudad).HasMaxLength(LimitesEntidad.Ciudad).IsRequired();
         builder.Property(reporte => reporte.Descripcion).HasMaxLength(LimitesEntidad.Descripcion).IsRequired();
         builder.Property(reporte => reporte.FotoUrl).HasMaxLength(LimitesEntidad.Url).IsRequired();
+        builder.Property(reporte => reporte.MascotaReunida).IsRequired();
         builder.HasIndex(reporte => new { reporte.Especie, reporte.Ciudad, reporte.FechaReporteUtc });
+        builder.HasIndex(reporte => reporte.MascotaReunida);
         builder.HasIndex(reporte => reporte.UsuarioId);
         builder.HasOne<Usuario>().WithMany().HasForeignKey(reporte => reporte.UsuarioId).OnDelete(DeleteBehavior.Restrict);
         builder.HasOne<Mascota>().WithMany().HasForeignKey(reporte => reporte.MascotaId).OnDelete(DeleteBehavior.SetNull);

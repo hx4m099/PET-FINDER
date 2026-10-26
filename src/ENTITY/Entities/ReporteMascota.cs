@@ -15,5 +15,6 @@ public sealed class ReporteMascota
     public string FotoUrl { get; set; } = string.Empty;
     public DateTime FechaEventoUtc { get; set; }
     public DateTime FechaReporteUtc { get; set; } = DateTime.UtcNow;
+    public bool MascotaReunida { get; set; }
     public bool Activo { get; set; } = true;
 }

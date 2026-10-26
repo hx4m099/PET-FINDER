@@ -18,6 +18,10 @@ public sealed class RefugioConfiguration : IEntityTypeConfiguration<Refugio>
         builder.Property(refugio => refugio.Ciudad).HasMaxLength(LimitesEntidad.Ciudad).IsRequired();
         builder.Property(refugio => refugio.Direccion).HasMaxLength(LimitesEntidad.Direccion).IsRequired();
         builder.Property(refugio => refugio.Telefono).HasMaxLength(LimitesEntidad.Telefono).IsRequired();
+        builder.Property(refugio => refugio.Horario).HasMaxLength(LimitesEntidad.Horario).IsRequired();
+        builder.Property(refugio => refugio.FotoUrl).HasMaxLength(LimitesEntidad.Url).IsRequired();
+        builder.Property(refugio => refugio.Latitud).HasPrecision(9, 6);
+        builder.Property(refugio => refugio.Longitud).HasPrecision(9, 6);
         builder.Property(refugio => refugio.CorreoElectronico).HasMaxLength(LimitesEntidad.CorreoElectronico).IsRequired();
         builder.HasIndex(refugio => refugio.UsuarioId).IsUnique();
         builder.HasIndex(refugio => refugio.CorreoElectronico).IsUnique();

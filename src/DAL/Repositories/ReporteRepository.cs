@@ -46,6 +46,16 @@ public sealed class ReporteRepository(InMemoryDataStore store) : IReporteReposit
     }
 
     /// <inheritdoc />
+    public Task<IReadOnlyCollection<ReporteMascota>> ObtenerTodosAsync(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        IReadOnlyCollection<ReporteMascota> reportes = store.Reportes.Values
+            .OrderByDescending(reporte => reporte.FechaReporteUtc)
+            .ToArray();
+        return Task.FromResult(reportes);
+    }
+
+    /// <inheritdoc />
     public Task GuardarAsync(ReporteMascota reporte, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(reporte);
