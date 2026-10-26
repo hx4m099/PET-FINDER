@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { SceneManager } from './SceneManager.js';
+import { SceneManager } from './SceneManager.js?v=20261026125900';
 
 const loader = new GLTFLoader();
 const MODEL_HEIGHT = 2.35;

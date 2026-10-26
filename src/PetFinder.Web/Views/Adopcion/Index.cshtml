@@ -59,17 +59,28 @@
             {
                 var photoFallback = mascota.Especie switch
                 {
-                    Especie.Perro => Url.Content("~/img/demo/perro-1.jpg"),
-                    Especie.Gato => Url.Content("~/img/demo/gato-1.jpg"),
+                    Especie.Perro => mascota.Nombre switch
+                    {
+                        "Rocky" => Url.Content("~/img/demo/perro-2.jpg"),
+                        "Nala" => Url.Content("~/img/demo/perro-2.jpg"),
+                        _ => Url.Content("~/img/demo/perro-1.jpg")
+                    },
+                    Especie.Gato => mascota.Nombre == "Coco"
+                        ? Url.Content("~/img/demo/gato-4.jpg")
+                        : Url.Content("~/img/demo/gato-3.jpg"),
                     _ => Url.Content("~/img/especies/" + mascota.Especie.ToString().ToLowerInvariant() + ".svg")
                 };
                 var speciesFallback = Url.Content("~/img/especies/" + mascota.Especie.ToString().ToLowerInvariant() + ".svg");
+                var isDemoPhoto = mascota.Id.ToString().StartsWith("55555555-", StringComparison.Ordinal);
+                var cardPhotoUrl = isDemoPhoto
+                    ? photoFallback
+                    : mascota.FotoUrl;
+                var imageLoading = isDemoPhoto ? "eager" : "lazy";
+                var imageFetchPriority = isDemoPhoto ? "high" : "auto";
                 <div class="adoption-grid__item">
                     <article class="pet-card">
                         <a asp-action="Detalle" asp-route-id="@mascota.Id" class="pet-card-image">
-                            <span class="img-reveal" data-image-reveal>
-                                <img src="@mascota.FotoUrl" alt="Foto de @mascota.Nombre" loading="lazy" decoding="async" width="640" height="480" data-image-fallback="@photoFallback" data-image-placeholder="@speciesFallback" data-image-timeout="6500" />
-                            </span>
+                            <img src="@cardPhotoUrl" alt="Foto de @mascota.Nombre" loading="@imageLoading" fetchpriority="@imageFetchPriority" decoding="async" width="640" height="480" data-image-fallback="@photoFallback" data-image-placeholder="@speciesFallback" data-image-timeout="6500" />
                             <span class="status-pill">Disponible</span>
                         </a>
                         <div class="pet-card-body">

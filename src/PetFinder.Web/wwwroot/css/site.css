@@ -5,7 +5,7 @@
 @media(max-width:575.98px){.navbar{min-height:68px}.hero-section{padding-top:3.4rem}.hero-art{min-height:320px;transform:scale(.91);margin:-.4rem -1rem}.floating-note{padding:.6rem .7rem}.note-top{left:-2%;top:8%}.note-bottom{right:-2%;bottom:7%}.orbit-one{width:330px;height:220px}.orbit-two{width:260px;height:300px}.pet-illustration{transform:scale(.85)}.trust-items{display:grid;grid-template-columns:1fr;gap:.75rem}.section{padding-top:3rem;padding-bottom:3rem}.footer-inner{grid-template-columns:1fr}.footer-inner small{grid-column:auto}.detail-layout{grid-template-columns:1fr}.detail-photo img{height:330px}.detail-facts{grid-template-columns:1fr 1fr}.appointment-card{grid-template-columns:56px 1fr;gap:.8rem}.appointment-date{width:56px;height:62px}.appointment-actions{grid-column:2;flex-wrap:wrap}.panel-header{align-items:flex-start;flex-direction:column}.panel-header h1{font-size:2rem}.auth-card{border-radius:22px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
-.hero-3d-canvas canvas{display:block;width:100%;height:100%;pointer-events:none}.hero-art.scene-ready .pet-illustration{opacity:.08;transition:opacity .3s ease}.hero-art.scene-ready .paw-mark{opacity:.12;transition:opacity .3s ease}.hero-art.scene-ready .hero-3d-canvas canvas{opacity:.96}@media(prefers-reduced-motion:reduce){.hero-art.scene-ready .pet-illustration,.hero-art.scene-ready .paw-mark{transition:none}}
+.hero-3d-canvas canvas{display:block;width:100%;height:100%;pointer-events:none}.hero-art.scene-ready .pet-illustration{opacity:.08;transition:opacity .3s ease}.hero-art.scene-ready .paw-mark{opacity:.12;transition:opacity .3s ease}.hero-art.scene-ready .hero-3d-canvas canvas{opacity:1}@media(prefers-reduced-motion:reduce){.hero-art.scene-ready .pet-illustration,.hero-art.scene-ready .paw-mark{transition:none}}
 
 
 /* Fase 6: landing cálida, tipografía editorial y secciones por scroll. */
@@ -99,10 +99,16 @@ html{scroll-padding-top:96px}body{background:#fffdf9;color:var(--ink);font-famil
     display: flex;
     flex-direction: column;
     min-width: 0;
+    width: 100%;
+    z-index: auto;
+    font-size: inherit;
+    transform: none;
     height: 100%;
     border-color: rgba(74, 55, 40, .12);
     box-shadow: 0 8px 24px rgba(77, 58, 37, .06);
 }
+
+.adoption-section .pet-card:hover { transform: translateY(-4px); }
 
 .adoption-section .pet-card-image {
     flex: 0 0 auto;
@@ -242,3 +248,77 @@ html{scroll-padding-top:96px}body{background:#fffdf9;color:var(--ink);font-famil
     .adoption-filter-actions { grid-column: auto; }
     .adoption-section .pet-card-image { height: 245px; }
 }
+
+
+/* Adoption photos must remain visible if an entrance animation is interrupted or restored from BFCache. */
+.adoption-section .pet-card-image {
+    position: relative;
+    display: block;
+    flex: 0 0 auto;
+    align-self: stretch;
+    width: 100%;
+    overflow: hidden;
+}
+
+.adoption-section .pet-card-image > .img-reveal,
+.adoption-section .pet-card-image > img,
+.adoption-section .pet-card-image > .img-reveal > img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.adoption-section .pet-card-image > .img-reveal > img {
+    object-fit: cover;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.adoption-section .pet-card-image > img {
+    position: relative !important;
+    inset: auto !important;
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 1;
+    opacity: 1 !important;
+    visibility: visible !important;
+    clip-path: none !important;
+    transform: none;
+}
+
+.adoption-section .pet-card-image > .status-pill { z-index: 2; }
+
+
+/* Responsive polish: keep adoption actions readable and cards comfortably wide on phones. */
+.adoption-section .pet-card-body .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    max-width: 100%;
+    font-size: clamp(.9rem, .8rem + .25vw, 1rem) !important;
+    line-height: 1.4;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 991.98px) {
+    .adoption-section .adoption-grid { grid-template-columns: minmax(0, 1fr); }
+    .adoption-section .pet-card-image { height: clamp(220px, 56vw, 320px); }
+}
+
+.navbar-toggler {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    color: var(--ink);
+}
+
+.nav-toggle-icon { display: block; width: 22px; height: 22px; }

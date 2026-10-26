@@ -57,11 +57,12 @@ export class SceneManager {
         this.renderer.setClearColor(0x000000, 0);
         this.renderer.outputColorSpace = THREE.SRGBColorSpace;
         this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        this.renderer.toneMappingExposure = 1.18;
+        this.renderer.toneMappingExposure = 0.94;
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         this.renderer.domElement.setAttribute('aria-hidden', 'true');
         this.renderer.domElement.setAttribute('role', 'presentation');
+        this.renderer.domElement.style.setProperty('opacity', '1', 'important');
         this.host.appendChild(this.renderer.domElement);
         this.createLighting();
         this.createContactShadow();
@@ -72,9 +73,9 @@ export class SceneManager {
     }
 
     createLighting() {
-        this.scene.add(new THREE.HemisphereLight(0xfff4e8, 0x6c594b, 1.75));
+        this.scene.add(new THREE.HemisphereLight(0xfff4e8, 0x6c594b, 1.35));
 
-        const key = new THREE.DirectionalLight(0xfff7ef, 3.1);
+        const key = new THREE.DirectionalLight(0xfff7ef, 2.45);
         key.position.set(-3.5, 5.5, 6);
         key.castShadow = true;
         key.shadow.mapSize.set(1024, 1024);
@@ -84,15 +85,15 @@ export class SceneManager {
         key.shadow.radius = 5;
         this.scene.add(key);
 
-        const fill = new THREE.DirectionalLight(0xffe1c8, 1.05);
+        const fill = new THREE.DirectionalLight(0xffe1c8, 0.78);
         fill.position.set(4, 2.4, 4.2);
         this.scene.add(fill);
 
-        const rim = new THREE.PointLight(0xff995c, 16, 16, 2);
+        const rim = new THREE.PointLight(0xff995c, 11.5, 16, 2);
         rim.position.set(2.8, 2.2, -2.5);
         this.scene.add(rim);
 
-        const front = new THREE.PointLight(0xffffff, 4.5, 12, 2);
+        const front = new THREE.PointLight(0xffffff, 3.3, 12, 2);
         front.position.set(-0.5, 1.2, 5.5);
         this.scene.add(front);
     }

@@ -28,12 +28,49 @@ export function initImageReveal() {
         wrapper.dataset.imagePrepared = 'true';
         wrapper.classList.add('is-loading');
 
-        const fallback = image.dataset.imageFallback;
-        const placeholder = image.dataset.imagePlaceholder;
+        const adoptionRoute = window.location.pathname.toLowerCase().startsWith('/adopcion');
+        const adoptionCard = adoptionRoute
+            ? wrapper.closest('.pet-card')
+            : wrapper.closest('.adoption-section .pet-card');
+        if (adoptionCard) {
+            wrapper.style.setProperty('position', 'absolute', 'important');
+            wrapper.style.setProperty('inset', '0', 'important');
+            wrapper.style.setProperty('width', '100%', 'important');
+            wrapper.style.setProperty('height', '100%', 'important');
+            image.style.setProperty('position', 'absolute', 'important');
+            image.style.setProperty('inset', '0', 'important');
+            image.style.setProperty('width', '100%', 'important');
+            image.style.setProperty('height', '100%', 'important');
+            image.style.setProperty('object-fit', 'cover', 'important');
+            image.style.setProperty('opacity', '1', 'important');
+            image.style.setProperty('visibility', 'visible', 'important');
+        }
+        const declaredFallback = image.dataset.imageFallback;
+        const speciesLabel = adoptionCard?.querySelector('.pet-card-body .eyebrow')?.textContent?.toLowerCase() ?? '';
+        const inferredPhotoFallback = speciesLabel.includes('gato')
+            ? '/img/demo/gato-3.jpg'
+            : speciesLabel.includes('perro') ? '/img/demo/perro-1.jpg' : null;
+        const fallback = adoptionCard ? inferredPhotoFallback ?? declaredFallback : declaredFallback;
+        const inferredSpeciesPlaceholder = speciesLabel.includes('gato')
+            ? '/img/especies/gato.svg'
+            : speciesLabel.includes('perro') ? '/img/especies/perro.svg' : null;
+        const placeholder = image.dataset.imagePlaceholder
+            ?? (adoptionCard ? inferredSpeciesPlaceholder : null);
         let fallbackStage = 0;
         let slowLoadTimer = 0;
         let loadWatchObserver = null;
         const reveal = () => {
+            if (adoptionCard) {
+                revealWithCss(wrapper);
+                if (!reducedMotion.matches && typeof image.animate === 'function') {
+                    const animation = image.animate([
+                        { clipPath: 'inset(0 100% 0 0)', transform: 'scale(1.035)' },
+                        { clipPath: 'inset(0 0 0 0)', transform: 'scale(1)' }
+                    ], { duration: 680, easing: 'cubic-bezier(.22,.72,.28,1)' });
+                    animation.addEventListener('finish', () => animation.cancel(), { once: true });
+                }
+                return;
+            }
             if (reducedMotion.matches) {
                 revealWithCss(wrapper);
                 return;
@@ -103,7 +140,7 @@ export function initImageReveal() {
             handleError();
             return;
         }
-        const timeoutMs = Number(image.dataset.imageTimeout);
+        const timeoutMs = Number(image.dataset.imageTimeout) || (adoptionCard ? 6500 : 0);
         if (timeoutMs > 0 && fallback) {
             const armSlowLoadTimer = () => {
                 slowLoadTimer = window.setTimeout(() => {

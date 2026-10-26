@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { PetScene } from './PetScene.js';
+import { PetScene } from './PetScene.js?v=20261026125900';
 
 export class DogScene extends PetScene {
     constructor(manager, options = {}) {

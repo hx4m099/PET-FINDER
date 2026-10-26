@@ -1,5 +1,5 @@
 import { initPageLoader } from './motion/page-loader.js';
-import { initImageReveal } from './motion/image-reveal.js';
+import { initImageReveal } from './motion/image-reveal.js?v=20261026125840';
 import { initReveal } from './motion/reveal.js';
 import { initCounters } from './motion/counters.js';
 import { initParallax } from './motion/parallax.js';
