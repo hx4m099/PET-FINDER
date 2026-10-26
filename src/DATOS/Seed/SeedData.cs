@@ -6,14 +6,14 @@ namespace PetFinder.Datos.Seed;
 /// <summary>Datos deterministas de demostración compartidos por EF Core y los repositorios en memoria.</summary>
 public static class SeedData
 {
-    private const string FotoPerroA = "https://files.manuscdn.com/search-media/310519664044868707/VewYamXnKlaJIfmZIqVu1T/vgZnPfb8rApRAsz2uT4jzZ.jpg";
-    private const string FotoGatoA = "https://files.manuscdn.com/search-media/310519664044868707/VewYamXnKlaJIfmZIqVu1T/KcYegWEBdwbfnX48bS5gBP.jpg";
-    private const string FotoPerroB = "https://files.manuscdn.com/search-media/310519664044868707/VewYamXnKlaJIfmZIqVu1T/oWdDdYMZQ8bNSFPmWcHCdY.jpg";
-    private const string FotoGatoB = "https://files.manuscdn.com/search-media/310519664044868707/VewYamXnKlaJIfmZIqVu1T/FQcSN2K3pKcdfUAugzwSZJ.jpg";
-    private const string FotoPerroC = "https://files.manuscdn.com/search-media/310519664044868707/VewYamXnKlaJIfmZIqVu1T/tULjvq4NskR594D5kMT9dC.jpg";
-    private const string FotoGatoC = "https://files.manuscdn.com/search-media/310519664044868707/VewYamXnKlaJIfmZIqVu1T/aP9F4n59eu8us5hW6jD4g4.jpg";
-    private const string FotoPerroD = "https://files.manuscdn.com/search-media/310519664044868707/VewYamXnKlaJIfmZIqVu1T/hA9FsSehD2jgGxRfzW5pxS.jpg";
-    private const string FotoGatoD = "https://files.manuscdn.com/search-media/310519664044868707/VewYamXnKlaJIfmZIqVu1T/tZSBnhuEpQZuoiJ6RXiGXU.jpg";
+    private const string FotoPerroA = "/img/demo/perro-1.jpg";
+    private const string FotoGatoA = "/img/demo/gato-1.jpg";
+    private const string FotoPerroB = "/img/demo/perro-2.jpg";
+    private const string FotoGatoB = "/img/demo/gato-2.jpg";
+    private const string FotoPerroC = "/img/demo/perro-3.jpg";
+    private const string FotoGatoC = "/img/demo/gato-3.jpg";
+    private const string FotoPerroD = "/img/demo/perro-4.jpg";
+    private const string FotoGatoD = "/img/demo/gato-4.jpg";
 
     public static IReadOnlyList<Usuario> Usuarios { get; } =
     [
@@ -94,9 +94,9 @@ public static class SeedData
 
     public static IReadOnlyList<ReporteMascota> ReportesMascota { get; } =
     [
-        new ReporteMascota { Id = Guid.Parse("66666666-0000-0000-0000-000000000001"), UsuarioId = Guid.Parse("33333333-3333-3333-3333-333333333333"), Tipo = TipoReporte.Perdida, Especie = Especie.Perro, NombreMascota = "Toby", Raza = "Criollo", Ciudad = "Valledupar", Descripcion = "Perro café con pecho blanco, visto cerca del parque.", FotoUrl = "/images/reportes/toby-perdido.jpg", FechaEventoUtc = new DateTime(2026, 10, 18, 16, 0, 0, DateTimeKind.Utc), FechaReporteUtc = new DateTime(2026, 10, 19, 9, 0, 0, DateTimeKind.Utc), Activo = true },
-        new ReporteMascota { Id = Guid.Parse("66666666-0000-0000-0000-000000000002"), UsuarioId = Guid.Parse("33333333-3333-3333-3333-333333333333"), Tipo = TipoReporte.Encontrada, Especie = Especie.Perro, NombreMascota = string.Empty, Raza = "Criollo", Ciudad = "Valledupar", Descripcion = "Perro café encontrado cerca del parque principal.", FotoUrl = "/images/reportes/perro-encontrado.jpg", FechaEventoUtc = new DateTime(2026, 10, 20, 16, 0, 0, DateTimeKind.Utc), FechaReporteUtc = new DateTime(2026, 10, 20, 18, 0, 0, DateTimeKind.Utc), Activo = true },
-        new ReporteMascota { Id = Guid.Parse("66666666-0000-0000-0000-000000000003"), UsuarioId = Guid.Parse("33333333-3333-3333-3333-333333333333"), Tipo = TipoReporte.Perdida, Especie = Especie.Gato, NombreMascota = "Nube", Raza = "Doméstico", Ciudad = "Valledupar", Descripcion = "Gata gris perdida en el barrio Novalito.", FotoUrl = "/images/reportes/nube-perdida.jpg", FechaEventoUtc = new DateTime(2026, 10, 21, 8, 0, 0, DateTimeKind.Utc), FechaReporteUtc = new DateTime(2026, 10, 21, 10, 0, 0, DateTimeKind.Utc), Activo = true },
+        new ReporteMascota { Id = Guid.Parse("66666666-0000-0000-0000-000000000001"), UsuarioId = Guid.Parse("33333333-3333-3333-3333-333333333333"), Tipo = TipoReporte.Perdida, Especie = Especie.Perro, NombreMascota = "Toby", Raza = "Criollo", Ciudad = "Valledupar", Descripcion = "Perro café con pecho blanco, visto cerca del parque.", FotoUrl = FotoPerroA, FechaEventoUtc = new DateTime(2026, 10, 18, 16, 0, 0, DateTimeKind.Utc), FechaReporteUtc = new DateTime(2026, 10, 19, 9, 0, 0, DateTimeKind.Utc), Activo = true },
+        new ReporteMascota { Id = Guid.Parse("66666666-0000-0000-0000-000000000002"), UsuarioId = Guid.Parse("33333333-3333-3333-3333-333333333333"), Tipo = TipoReporte.Encontrada, Especie = Especie.Perro, NombreMascota = string.Empty, Raza = "Criollo", Ciudad = "Valledupar", Descripcion = "Perro café encontrado cerca del parque principal.", FotoUrl = FotoPerroB, FechaEventoUtc = new DateTime(2026, 10, 20, 16, 0, 0, DateTimeKind.Utc), FechaReporteUtc = new DateTime(2026, 10, 20, 18, 0, 0, DateTimeKind.Utc), Activo = true },
+        new ReporteMascota { Id = Guid.Parse("66666666-0000-0000-0000-000000000003"), UsuarioId = Guid.Parse("33333333-3333-3333-3333-333333333333"), Tipo = TipoReporte.Perdida, Especie = Especie.Gato, NombreMascota = "Nube", Raza = "Doméstico", Ciudad = "Valledupar", Descripcion = "Gata gris perdida en el barrio Novalito.", FotoUrl = FotoGatoA, FechaEventoUtc = new DateTime(2026, 10, 21, 8, 0, 0, DateTimeKind.Utc), FechaReporteUtc = new DateTime(2026, 10, 21, 10, 0, 0, DateTimeKind.Utc), Activo = true },
         new ReporteMascota { Id = Guid.Parse("66666666-0000-0000-0000-000000000004"), UsuarioId = Guid.Parse("33333333-3333-3333-3333-333333333333"), Tipo = TipoReporte.Encontrada, Especie = Especie.Perro, NombreMascota = "Sol", Raza = "Criolla", Ciudad = "Valledupar", Descripcion = "Caso histórico ficticio de reencuentro para la métrica de ejemplo.", FotoUrl = FotoPerroB, FechaEventoUtc = new DateTime(2026, 8, 11, 8, 0, 0, DateTimeKind.Utc), FechaReporteUtc = new DateTime(2026, 8, 11, 10, 0, 0, DateTimeKind.Utc), MascotaReunida = true, Activo = false }
     ];
 

@@ -6,7 +6,8 @@ const REVEAL_DURATION = 0.72;
 const STAGGER_SECONDS = 0.1;
 
 export function initReveal() {
-    const elements = [...document.querySelectorAll('[data-reveal]')];
+    const elements = [...document.querySelectorAll('[data-reveal], .section-heading, [data-story-step]')]
+        .filter((element) => !element.closest('#hero'));
     const gsap = window.gsap;
     const scrollTrigger = window.ScrollTrigger;
     const reducedMotion = window.matchMedia(REDUCED_MOTION);
@@ -24,7 +25,7 @@ export function initReveal() {
 
     elements.forEach((element) => {
         const parent = element.parentElement;
-        const siblings = groups.get(parent) ?? [...parent.children].filter((child) => child.matches('[data-reveal]'));
+        const siblings = groups.get(parent) ?? [...parent.children].filter((child) => child.matches('[data-reveal], .section-heading, [data-story-step]') && !child.closest('#hero'));
         groups.set(parent, siblings);
         const index = siblings.indexOf(element);
         if (!element.dataset.reveal && siblings.length >= 3) {
@@ -33,7 +34,7 @@ export function initReveal() {
         element.style.setProperty('--reveal-delay', `${Math.min(index, 4) * STAGGER_SECONDS}s`);
         element.classList.add('reveal-pending');
 
-        const direction = element.dataset.reveal;
+        const direction = element.dataset.reveal ?? (element.matches('.section-heading') ? 'left' : undefined);
         const from = { autoAlpha: 0, y: 26 };
         if (direction === 'left') { from.x = -28; from.y = 0; }
         else if (direction === 'right') { from.x = 28; from.y = 0; }

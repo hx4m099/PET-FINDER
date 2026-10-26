@@ -13,7 +13,6 @@ import { initFeaturedPets } from './scroll/featured-pets.js';
 import { initCommunityBoard } from './scroll/community-board.js';
 import { initFaq } from './scroll/faq.js';
 import { initBackToTop } from './scroll/back-to-top.js';
-import { initSearchingScenes } from './three/searching-scene.js';
 
 const initializers = [
     initPageLoader,
@@ -28,20 +27,24 @@ const initializers = [
     initCommunityBoard,
     initFaq,
     initBackToTop,
-    initSearchingScenes,
     initRefugiosMap,
     initCustomCursor,
     initMagneticButtons
 ];
 
-let enhanced = true;
+document.documentElement.classList.add('js-enabled');
 initializers.forEach((initialize) => {
     try {
         initialize();
     } catch (error) {
-        enhanced = false;
         console.warn(`PetFinder: no se pudo iniciar ${initialize.name}; se conserva el contenido estático.`, error);
     }
 });
 
-if (enhanced) document.documentElement.classList.add('js-enabled');
+// La escena 3D de resultados es una mejora opcional; un fallo de WebGL/CDN no debe
+// impedir que se inicialicen imágenes, reveals, mapa ni el resto de interacciones.
+if (document.querySelector('[data-searching-scene]')) {
+    import('./three/searching-scene.js')
+        .then(({ initSearchingScenes }) => initSearchingScenes())
+        .catch((error) => console.warn('PetFinder: la escena 3D de resultados no está disponible.', error));
+}

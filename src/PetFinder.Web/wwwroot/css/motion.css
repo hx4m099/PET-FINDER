@@ -627,3 +627,143 @@ html.js-enabled .hero-art:not(.scene-ready) .hero-fallback-cat { animation: fall
 @media (prefers-reduced-motion: reduce) {
     .hero-art .hero-fallback-pet { animation: none !important; }
 }
+
+
+/* Motion polish: iconos del hero, fondos ambientales y scroll storytelling */
+.floating-note .note-icon {
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(206, 81, 40, .08);
+}
+
+.floating-note .note-icon .icon-svg {
+    width: 19px;
+    height: 19px;
+    stroke-width: 2;
+}
+
+.floating-note .note-search .icon-svg { fill: none; }
+.floating-note .note-heart .icon-svg { fill: rgba(206, 81, 40, .14); }
+
+html.js-enabled .floating-note .note-icon::after {
+    position: absolute;
+    inset: -60%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, .85), transparent 64%);
+    content: "";
+    pointer-events: none;
+    animation: note-icon-glint 4.8s ease-in-out infinite;
+}
+
+html.js-enabled .note-bottom .note-icon::after { animation-delay: 1.15s; }
+
+@keyframes note-icon-glint {
+    0%, 100% { opacity: 0; transform: translateX(-35%) scale(.65); }
+    48% { opacity: .8; }
+    70% { opacity: 0; transform: translateX(35%) scale(1.15); }
+}
+
+/* Deep, slow ambient motion under the landing and community panels. */
+@media (prefers-reduced-motion: no-preference) {
+    html.js-enabled .hero-section::before { animation-duration: 11s; }
+    html.js-enabled .hero-section::after { animation-duration: 42s; }
+
+    html.js-enabled .community-section {
+        position: relative;
+        isolation: isolate;
+        background-image:
+            radial-gradient(ellipse at 10% 22%, rgba(239, 130, 85, .15), transparent 36%),
+            radial-gradient(ellipse at 88% 76%, rgba(126, 158, 124, .18), transparent 38%),
+            linear-gradient(125deg, #3d3028 0%, #4a3728 46%, #344238 100%);
+        background-size: 150% 150%;
+        animation: community-atmosphere 22s ease-in-out infinite alternate;
+    }
+
+    html.js-enabled .community-pattern {
+        animation: community-pattern-drift 28s ease-in-out infinite alternate;
+    }
+
+    html.js-enabled .hero-art-glow { animation: hero-glow-breathe 7.5s ease-in-out infinite alternate; }
+}
+
+@keyframes community-atmosphere {
+    0% { background-position: 0% 20%, 100% 80%, 0% 50%; }
+    100% { background-position: 35% 80%, 70% 10%, 100% 50%; }
+}
+
+@keyframes community-pattern-drift {
+    to { transform: translate3d(-18px, 16px, 0) rotate(8deg) scale(1.035); }
+}
+
+@keyframes hero-glow-breathe {
+    to { transform: scale(1.055); filter: blur(3px) saturate(1.08); opacity: .88; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .floating-note .note-icon::after,
+    .community-section,
+    .community-pattern,
+    .hero-art-glow,
+    [data-scroll-section] .section-heading,
+    [data-scroll-section] [data-reveal],
+    [data-scroll-section] [data-story-step] {
+        animation: none !important;
+        animation-timeline: auto !important;
+        filter: none !important;
+    }
+}
+
+
+/* Ambient scroll backgrounds for every section below the hero. */
+@media (prefers-reduced-motion: no-preference) {
+    .page-section:not(.community-section) {
+        position: relative;
+        isolation: isolate;
+    }
+
+    .page-section:not(.community-section)::before,
+    .page-section:not(.community-section)::after {
+        position: absolute;
+        z-index: -1;
+        inset: 0;
+        content: "";
+        pointer-events: none;
+    }
+
+    .page-section:not(.community-section)::before {
+        background:
+            radial-gradient(ellipse at 14% 30%, rgba(239, 130, 85, .10), transparent 31%),
+            radial-gradient(ellipse at 88% 72%, rgba(115, 139, 112, .11), transparent 34%);
+        background-size: 150% 150%;
+        animation: section-atmosphere 24s ease-in-out infinite alternate;
+    }
+
+    .page-section:not(.community-section)::after {
+        inset: auto 5% 8% auto;
+        width: clamp(82px, 13vw, 168px);
+        aspect-ratio: 1;
+        opacity: .045;
+        background: url('/img/paw-pattern.svg') center / contain no-repeat;
+        animation: section-paw-float 15s ease-in-out infinite alternate;
+    }
+
+    .page-section:not(.community-section) > .container,
+    .page-section:not(.community-section) > .steps-container {
+        position: relative;
+        z-index: 1;
+    }
+}
+
+@keyframes section-atmosphere {
+    from { background-position: 0% 20%, 100% 80%; }
+    to { background-position: 55% 85%, 20% 12%; }
+}
+
+@keyframes section-paw-float {
+    to { transform: translate3d(-9px, -17px, 0) rotate(8deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-section::before,
+    .page-section::after { animation: none !important; }
+}
