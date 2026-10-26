@@ -6,14 +6,14 @@
     <div class="container hero-grid">
         <div class="hero-copy">
             <span class="eyebrow"><span class="eyebrow-dot"></span> Una comunidad que cuida</span>
-            <h1 id="home-title">Pequeñas acciones.<br /><span>Grandes reencuentros.</span></h1>
+            <h1 id="home-title"><span class="hero-title-line hero-title-line-plain">Pequeñas acciones.</span><span class="hero-title-line hero-title-accent">Grandes reencuentros.</span></h1>
             <p class="hero-lead">En Valledupar, conectamos familias, personas solidarias y refugios para que cada mascota encuentre el camino de vuelta o una nueva familia.</p>
             <div class="hero-actions"><a class="btn btn-primary btn-lg" asp-controller="Reportes" asp-action="Crear">Buscar una mascota <span aria-hidden="true">↗</span></a><a class="btn btn-soft btn-lg" asp-controller="Adopcion" asp-action="Index">Conocer para adoptar <span aria-hidden="true">↗</span></a></div>
             <div class="hero-note"><span aria-hidden="true">✦</span> Cerca de ti, con el apoyo de refugios aliados.</div>
         </div>
-        <div class="hero-art" role="img" aria-label="Modelos 3D de un perro dorado y un gato gris sentados">
+        <div class="hero-art" role="group" aria-label="Ilustración de un perro dorado y un gato gris sentados">
             <div class="hero-art-glow" data-parallax="0.22"></div>
-            <svg class="hero-orbits" viewBox="0 0 640 500" aria-hidden="true"><ellipse class="hero-orbit-path orbit-path-one" cx="320" cy="250" rx="280" ry="178"/><ellipse class="hero-orbit-path orbit-path-two" cx="320" cy="250" rx="235" ry="144" transform="rotate(-14 320 250)"/></svg>
+            <svg class="hero-orbits" viewBox="0 0 640 500" aria-hidden="true"><ellipse class="hero-orbit-path orbit-path-one" cx="320" cy="250" rx="280" ry="178" pathLength="1"/><ellipse class="hero-orbit-path orbit-path-two" cx="320" cy="250" rx="235" ry="144" transform="rotate(-14 320 250)" pathLength="1"/></svg>
             <div class="pet-illustration" aria-hidden="true"><img class="hero-fallback-pet hero-fallback-dog" src="@Url.Content("~/img/especies/perro.svg")" alt="" width="300" height="300" /><img class="hero-fallback-pet hero-fallback-cat" src="@Url.Content("~/img/especies/gato.svg")" alt="" width="300" height="300" /></div>
             <div class="floating-note note-top"><span class="note-icon note-search" aria-hidden="true"></span><span><strong>Buscando</strong><small>Una nueva coincidencia</small></span></div><div class="floating-note note-bottom"><span class="note-icon note-heart" aria-hidden="true"></span><span><strong>Adopción responsable</strong><small>Con refugios aliados</small></span></div>
             <div class="hero-3d-canvas" data-scene="landing" data-dog-model="@Url.Content("~/models/dog-chibi-idle.glb")" data-dog-fallback="@Url.Content("~/models/dog-chibi-rigged.glb")" data-cat-model="@Url.Content("~/models/cat-chibi-rigged.glb")" aria-hidden="true"></div>
@@ -24,6 +24,7 @@
 
 @await Html.PartialAsync("_StatsSection", Model)
 @await Html.PartialAsync("_PasosSection")
+@await Html.PartialAsync("_BusquedaSection")
 @await Html.PartialAsync("_MapaRefugios", Model)
 @await Html.PartialAsync("_MascotasSection", Model)
 @await Html.PartialAsync("_TableroSection", Model)
@@ -38,5 +39,4 @@
 @section Scripts {
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
     <script type="module" src="~/js/three/landing-scene.js" asp-append-version="true"></script>
-    <script type="module" src="~/js/scroll/main.js" asp-append-version="true"></script>
 }

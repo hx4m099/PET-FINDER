@@ -1,0 +1,39 @@
+@{
+    var reportar = Url.Action("Crear", "Reportes") ?? "/Reportes/Crear";
+    var adoptar = Url.Action("Index", "Adopcion") ?? "/Adopcion";
+}
+<section id="flujo-busqueda" class="search-story-section page-section" data-scroll-section aria-labelledby="search-story-title">
+    <div class="container">
+        <div class="section-heading section-heading-centered" data-reveal>
+            <span class="eyebrow">Un proceso claro y cercano</span>
+            <h2 id="search-story-title">De un aviso a una <em>posible coincidencia.</em></h2>
+            <p>Pasos sencillos para acompañar búsquedas y adopciones responsables en Valledupar.</p>
+        </div>
+        <div class="search-story-shell" data-scroll-story>
+            <div class="search-story-progress" aria-hidden="true"><span data-story-progress></span></div>
+            <div class="search-story-grid">
+                <article class="search-story-step" data-story-step>
+                    <span class="search-story-number">01</span>
+                    <span class="search-story-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="7" y="11" width="34" height="27" rx="5"/><circle cx="24" cy="24" r="7"/><path d="m14 11 3-5h10l3 5"/></svg></span>
+                    <h3>Reporta con detalles</h3>
+                    <p>Agrega una foto, especie, fecha y sector de Valledupar. Los datos claros ayudan a que otras personas reconozcan el aviso.</p>
+                    <a class="arrow-link" href="@reportar">Crear un reporte <span aria-hidden="true">↗</span></a>
+                </article>
+                <article class="search-story-step" data-story-step>
+                    <span class="search-story-number">02</span>
+                    <span class="search-story-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="6" y="7" width="27" height="34" rx="4"/><path d="M12 15h15M12 21h9M12 33l5-5 5 4 6-8"/><circle cx="34" cy="31" r="8"/><path d="m40 37 4 4"/></svg></span>
+                    <h3>Compara el contexto</h3>
+                    <p>PetFinder filtra candidatos por especie, ciudad y fecha reciente. El porcentaje de similitud actual es una demostración, no un análisis real de fotos.</p>
+                    <span class="search-story-note">Coincidencia simulada, revisa siempre los datos</span>
+                </article>
+                <article class="search-story-step" data-story-step>
+                    <span class="search-story-number">03</span>
+                    <span class="search-story-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 43s15-14 15-25a15 15 0 1 0-30 0c0 11 15 25 15 25z"/><circle cx="24" cy="18" r="5"/><path d="m19 30 4 4 8-9"/></svg></span>
+                    <h3>Revisa y acompaña</h3>
+                    <p>Lee cada aviso con calma, comparte información verificable y explora refugios aliados antes de coordinar un siguiente paso.</p>
+                    <a class="arrow-link" href="@adoptar">Explorar mascotas <span aria-hidden="true">↗</span></a>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
