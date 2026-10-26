@@ -14,7 +14,7 @@
     </div></form>
     @if (Model.Mascotas.Count == 0)
     {
-        <div class="empty-state"><div class="empty-icon">🐾</div><h2>Pronto conocerás más amigos</h2><p>No encontramos mascotas con esos filtros. Prueba otra especie, edad o refugio.</p></div>
+        <div class="empty-state"><div class="empty-icon" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" focusable="false"><use href="@Url.Content("~/img/icons.svg")#paw"></use></svg></div><h2>Pronto conocerás más amigos</h2><p>No encontramos mascotas con esos filtros. Prueba otra especie, edad o refugio.</p></div>
     }
     else
     {

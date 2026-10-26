@@ -9,18 +9,22 @@ function readFavorites() {
     }
 }
 
+function syncFavorite(button, active) {
+    button.setAttribute('aria-pressed', String(active));
+    button.classList.toggle('is-favorite', active);
+    const name = button.dataset.favoriteName;
+    if (name) button.setAttribute('aria-label', `${active ? 'Quitar' : 'Guardar'} a ${name} ${active ? 'de' : 'en'} favoritos`);
+}
+
 export function initFeaturedPets() {
     const favorites = readFavorites();
     document.querySelectorAll('[data-favorite-button]').forEach((button) => {
         const id = button.dataset.favoriteId;
         const active = favorites.has(id);
-        button.setAttribute('aria-pressed', String(active));
-        button.querySelector('span')?.replaceChildren(document.createTextNode(active ? '♥' : '♡'));
+        syncFavorite(button, active);
         button.addEventListener('click', () => {
             const nextActive = button.getAttribute('aria-pressed') !== 'true';
-            button.setAttribute('aria-pressed', String(nextActive));
-            button.querySelector('span')?.replaceChildren(document.createTextNode(nextActive ? '♥' : '♡'));
-            button.classList.toggle('is-favorite', nextActive);
+            syncFavorite(button, nextActive);
             if (nextActive) favorites.add(id);
             else favorites.delete(id);
             try { window.localStorage.setItem(storageKey, JSON.stringify([...favorites])); } catch { /* El favorito sigue funcionando en esta sesión. */ }

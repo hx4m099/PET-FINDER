@@ -7,9 +7,9 @@
             <a class="btn btn-light-outline" asp-controller="Reportes" asp-action="Crear">Publica un aviso <span aria-hidden="true">↗</span></a>
         </div>
         <div class="board-toolbar" role="group" aria-label="Filtrar avisos por especie" data-reveal>
-            <button type="button" class="board-filter is-active" data-report-filter="all" aria-pressed="true">Todos</button>
-            <button type="button" class="board-filter" data-report-filter="perro" aria-pressed="false">Perros</button>
-            <button type="button" class="board-filter" data-report-filter="gato" aria-pressed="false">Gatos</button>
+            <button type="button" class="board-filter is-active" data-report-filter="all" aria-pressed="true"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="@Url.Content("~/img/icons.svg")#paw"></use></svg><span>Todos</span></button>
+            <button type="button" class="board-filter" data-report-filter="perro" aria-pressed="false"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="@Url.Content("~/img/icons.svg")#dog"></use></svg><span>Perros</span></button>
+            <button type="button" class="board-filter" data-report-filter="gato" aria-pressed="false"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="@Url.Content("~/img/icons.svg")#cat"></use></svg><span>Gatos</span></button>
             <span id="board-filter-status" class="visually-hidden" role="status" aria-live="polite"></span>
         </div>
         <div id="community-board" class="community-grid">

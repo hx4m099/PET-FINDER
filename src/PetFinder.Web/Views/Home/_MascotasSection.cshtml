@@ -15,7 +15,7 @@
                         <span class="img-reveal" data-image-reveal><img src="@mascota.FotoUrl" alt="Fotografía ilustrativa de @mascota.Nombre" loading="lazy" decoding="async" width="640" height="480" data-image-fallback="@Url.Content("~/img/especies/" + mascota.Especie.ToString().ToLowerInvariant() + ".svg")" /></span>
                         <span class="pet-photo-kind">@(mascota.Especie == PetFinder.Entity.Enums.Especie.Perro ? "Perro" : "Gato")</span>
                     </a>
-                    <button class="favorite-button" type="button" data-favorite-button data-favorite-id="@mascota.Id" aria-pressed="false" aria-label="Guardar a @mascota.Nombre en favoritos"><span aria-hidden="true">♡</span></button>
+                    <button class="favorite-button" type="button" data-favorite-button data-favorite-id="@mascota.Id" data-favorite-name="@mascota.Nombre" aria-pressed="false" aria-label="Guardar a @mascota.Nombre en favoritos"><span aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" focusable="false"><use href="@Url.Content("~/img/icons.svg")#heart"></use></svg></span></button>
                     <div class="featured-pet-copy"><div class="featured-pet-title"><h3>@mascota.Nombre</h3><span>@edad</span></div><p>@mascota.Raza · Valledupar</p><a class="arrow-link" asp-controller="Adopcion" asp-action="Detalle" asp-route-id="@mascota.Id">Conocer su historia <span aria-hidden="true">↗</span></a></div>
                 </article>
             }
