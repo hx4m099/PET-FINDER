@@ -89,8 +89,8 @@ export function initImageReveal() {
 
         image.addEventListener('load', handleLoad);
         image.addEventListener('error', handleError);
-        if (!image.getAttribute('src') && !image.currentSrc) {
-            wrapper.classList.remove('is-loading');
+        if (!image.getAttribute('src')?.trim() && !image.currentSrc) {
+            handleError();
             return;
         }
         if (image.complete) {

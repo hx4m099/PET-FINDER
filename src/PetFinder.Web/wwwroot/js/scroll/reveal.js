@@ -1,7 +1,7 @@
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 export function initReveal() {
-    const elements = [...document.querySelectorAll('[data-reveal]')];
+    const elements = [...document.querySelectorAll('[data-reveal], [data-story-step]')];
     if (!elements.length) return;
 
     if (reducedMotion.matches || !('IntersectionObserver' in window)) {
@@ -12,7 +12,7 @@ export function initReveal() {
     const parents = new Map();
     elements.forEach((element) => {
         const parent = element.parentElement;
-        const siblings = parents.get(parent) ?? [...parent.children].filter((child) => child.matches('[data-reveal]'));
+        const siblings = parents.get(parent) ?? [...parent.children].filter((child) => child.matches('[data-reveal], [data-story-step]'));
         parents.set(parent, siblings);
         const index = siblings.indexOf(element);
         if (!element.dataset.reveal && siblings.length >= 3) {

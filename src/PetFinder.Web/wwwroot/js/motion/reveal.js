@@ -12,6 +12,7 @@ export function initReveal() {
     const reducedMotion = window.matchMedia(REDUCED_MOTION);
     if (!elements.length) return;
     if (!gsap || !scrollTrigger || reducedMotion.matches) {
+        document.documentElement.classList.add('motion-fallback');
         initRevealFallback();
         document.querySelectorAll('#hero .hero-title-accent').forEach((accent) => accent.classList.add('is-highlighted'));
         return;
