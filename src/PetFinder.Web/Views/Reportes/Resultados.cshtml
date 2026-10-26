@@ -7,7 +7,7 @@
     <div class="alert alert-warning"><strong>Vista de demostración:</strong> los porcentajes se simulan y no representan análisis real de fotografías.</div>
     @if (Model.Count == 0)
     {
-        <div class="empty-state"><div class="empty-icon">⌕</div><h2>Aún no hay coincidencias</h2><p>Tu reporte permanece publicado. Vuelve a revisar pronto y comparte la búsqueda con tu comunidad.</p><a class="btn btn-soft" asp-controller="Adopcion" asp-action="Index">Explorar adopciones</a></div>
+        <div class="empty-state"><div class="empty-icon searching-scene-host" data-searching-scene aria-hidden="true"></div><h2>Aún no hay coincidencias</h2><p>Tu reporte permanece publicado. Vuelve a revisar pronto y comparte la búsqueda con tu comunidad.</p><a class="btn btn-soft" asp-controller="Adopcion" asp-action="Index">Explorar adopciones</a></div>
     }
     else
     {
@@ -15,7 +15,7 @@
         @foreach (var coincidencia in Model)
         {
             <div class="col-md-6"><article class="match-card">
-                <img src="@coincidencia.Reporte.FotoUrl" alt="Foto del reporte de mascota @coincidencia.Reporte.NombreMascota" loading="lazy" />
+                <span class="img-reveal" data-image-reveal><img src="@coincidencia.Reporte.FotoUrl" alt="Foto del reporte de mascota @coincidencia.Reporte.NombreMascota" loading="lazy" decoding="async" width="800" height="600" data-image-fallback="@Url.Content("~/img/especies/" + coincidencia.Reporte.Especie.ToString().ToLowerInvariant() + ".svg")" /></span>
                 <div class="match-card-body"><div class="d-flex justify-content-between gap-2 align-items-center"><span class="status-pill">@(coincidencia.Reporte.Tipo == PetFinder.Entity.Enums.TipoReporte.Perdida ? "Perdida" : "Encontrada")</span><strong class="match-percent">@coincidencia.PorcentajeSimilitud.ToString("0")%</strong></div>
                     <h2>@(string.IsNullOrWhiteSpace(coincidencia.Reporte.NombreMascota) ? "Sin nombre" : coincidencia.Reporte.NombreMascota)</h2>
                     <p>@coincidencia.Reporte.Especie · @coincidencia.Reporte.Ciudad</p>

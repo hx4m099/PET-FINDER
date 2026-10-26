@@ -4,7 +4,7 @@
         <div class="section-heading section-heading-centered" data-reveal>
             <span class="eyebrow">A un paseo de distancia</span>
             <h2 id="map-title">Refugios aliados en <em>Valledupar.</em></h2>
-            <span class="map-location-pill"><span aria-hidden="true">⌖</span> Valledupar, Cesar, Colombia</span>
+            <span class="map-location-pill"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="@Url.Content("~/img/icons.svg")#pin"></use></svg> Valledupar, Cesar, Colombia</span>
             <p>Explora perfiles y publicaciones de ejemplo de Valledupar. Las ubicaciones, direcciones y contactos son ficticios.</p>
         </div>
         <div class="map-filters" data-reveal>
@@ -22,7 +22,7 @@
                         var especiesCsv = string.Join(",", refugio.EspeciesDisponibles.Select(especie => especie.ToString().ToLowerInvariant()));
                         <li class="refuge-list-item" data-refugio-id="@refugio.Id" data-nombre="@refugio.Nombre" data-direccion="@refugio.Direccion" data-ciudad="@refugio.Ciudad" data-horario="@refugio.Horario" data-telefono="@refugio.Telefono" data-foto-url="@refugio.FotoUrl" data-latitud="@refugio.Latitud.ToString(System.Globalization.CultureInfo.InvariantCulture)" data-longitud="@refugio.Longitud.ToString(System.Globalization.CultureInfo.InvariantCulture)" data-mascotas="@refugio.MascotasDisponibles" data-especies="@especiesCsv">
                             <button class="refuge-list-card" type="button" data-refugio-select="@refugio.Id" aria-label="Enfocar @refugio.Nombre en el mapa">
-                                <span class="refuge-pin" aria-hidden="true">⌖</span><span class="refuge-card-copy"><strong>@refugio.Nombre</strong><small>@refugio.Direccion</small><small>@refugio.MascotasDisponibles mascotas · @refugio.Horario</small><small class="refuge-distance" data-distance-for="@refugio.Id"></small></span><span class="refuge-chevron" aria-hidden="true">↗</span>
+                                <span class="refuge-pin" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" focusable="false"><use href="@Url.Content("~/img/icons.svg")#pin"></use></svg></span><span class="refuge-card-copy"><strong>@refugio.Nombre</strong><small>@refugio.Direccion</small><small>@refugio.MascotasDisponibles mascotas · @refugio.Horario</small><small class="refuge-distance" data-distance-for="@refugio.Id"></small></span><span class="refuge-chevron" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" focusable="false"><use href="@Url.Content("~/img/icons.svg")#arrow-up-right"></use></svg></span>
                             </button>
                             <a class="refuge-catalog-link" href="@Url.Action("Index", "Adopcion", new { refugioId = refugio.Id })">Ver mascotas y agendar cita <span aria-hidden="true">→</span></a>
                         </li>

@@ -7,5 +7,18 @@
     @if (TempData["Mensaje"] is string mensaje) { <div class="alert alert-success" role="status">@mensaje</div> }
     <h2 class="h4 mb-4">Tus publicaciones <span class="count-badge">@Model.Mascotas.Count</span></h2>
     @if (Model.Mascotas.Count == 0) { <div class="empty-state"><h2>Aún no publicas mascotas</h2><p>Agrega una foto y una descripción para que las familias te encuentren.</p><a class="btn btn-primary" asp-action="CrearMascota">Crear publicación</a></div> }
-    else { <div class="row g-4">@foreach (var mascota in Model.Mascotas){<div class="col-md-6 col-lg-4"><article class="pet-card"><div class="pet-card-image"><img src="@mascota.FotoUrl" alt="Foto de @mascota.Nombre" /><span class="status-pill">@(mascota.DisponibleAdopcion ? "Disponible" : "Pausada")</span></div><div class="pet-card-body"><h3>@mascota.Nombre</h3><p>@mascota.Especie · @mascota.Ciudad</p><a class="btn btn-soft" asp-action="EditarMascota" asp-route-id="@mascota.Id">Editar publicación</a></div></article></div>}</div> }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var mascota in Model.Mascotas)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <article class="pet-card">
+                        <div class="pet-card-image"><span class="img-reveal" data-image-reveal><img src="@mascota.FotoUrl" alt="Foto de @mascota.Nombre" loading="lazy" decoding="async" width="640" height="480" data-image-fallback="@Url.Content("~/img/especies/" + mascota.Especie.ToString().ToLowerInvariant() + ".svg")" /></span><span class="status-pill">@(mascota.DisponibleAdopcion ? "Disponible" : "Pausada")</span></div>
+                        <div class="pet-card-body"><h3>@mascota.Nombre</h3><p>@mascota.Especie · @mascota.Ciudad</p><a class="btn btn-soft" asp-action="EditarMascota" asp-route-id="@mascota.Id">Editar publicación</a></div>
+                    </article>
+                </div>
+            }
+        </div>
+    }
 </section>

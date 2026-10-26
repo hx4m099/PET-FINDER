@@ -9,19 +9,19 @@
             <h2 id="steps-title">Pequeñas acciones.<br /><em>Grandes reencuentros.</em></h2>
         </div>
         <div class="steps-grid">
-            <svg class="steps-connector" viewBox="0 0 1000 150" preserveAspectRatio="none" aria-hidden="true"><path d="M40 90 C200 20, 300 20, 460 90 S720 160, 960 65" pathLength="1" /></svg>
+            <svg class="steps-connector" viewBox="0 0 1000 150" preserveAspectRatio="none" aria-hidden="true"><path class="steps-connector-base" d="M40 90 C200 20, 300 20, 460 90 S720 160, 960 65" /><path class="steps-connector-progress" d="M40 90 C200 20, 300 20, 460 90 S720 160, 960 65" pathLength="1" /></svg>
             <article class="step-card" data-reveal>
-                <span class="step-number">01</span><span class="step-symbol" aria-hidden="true">⌕</span>
+                <span class="step-number">01</span><span class="step-symbol" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" focusable="false"><use href="@Url.Content("~/img/icons.svg")#search"></use></svg></span>
                 <h3>Busca con calma</h3><p>Explora avisos cercanos y mascotas de refugios aliados con información clara.</p>
                 <a class="arrow-link" href="@reportar">Buscar una mascota <span aria-hidden="true">↗</span></a>
             </article>
             <article class="step-card" data-reveal>
-                <span class="step-number">02</span><span class="step-symbol" aria-hidden="true">♡</span>
+                <span class="step-number">02</span><span class="step-symbol" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" focusable="false"><use href="@Url.Content("~/img/icons.svg")#heart"></use></svg></span>
                 <h3>Conoce su historia</h3><p>Lee su perfil, descubre su personalidad y encuentra un refugio cerca de ti.</p>
                 <a class="arrow-link" href="@adoptar">Ver historias <span aria-hidden="true">↗</span></a>
             </article>
             <article class="step-card" data-reveal>
-                <span class="step-number">03</span><span class="step-symbol" aria-hidden="true">✳</span>
+                <span class="step-number">03</span><span class="step-symbol" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" focusable="false"><use href="@Url.Content("~/img/icons.svg")#check"></use></svg></span>
                 <h3>Comparte lo verificado</h3><p>Publica detalles útiles para que la comunidad pueda ayudar de forma responsable.</p>
                 <a class="arrow-link" href="@reportar">Publicar un aviso <span aria-hidden="true">↗</span></a>
             </article>

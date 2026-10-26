@@ -42,13 +42,31 @@ function makeElement(tag, className, text) {
     return element;
 }
 
+function makeIcon(symbolId) {
+    const namespace = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(namespace, 'svg');
+    svg.setAttribute('class', 'icon-svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    const use = document.createElementNS(namespace, 'use');
+    use.setAttribute('href', `/img/icons.svg#${symbolId}`);
+    svg.append(use);
+    return svg;
+}
+
 function makePopup(item) {
     const card = makeElement('article', 'map-popup-card');
     const image = document.createElement('img');
-    image.src = item.fotoUrl || '';
-    image.alt = '';
+    image.src = item.fotoUrl || '/img/especies/otro.svg';
+    image.alt = `Fotografía de ${item.nombre || 'un refugio aliado'}`;
     image.loading = 'lazy';
-    image.addEventListener('error', () => image.classList.add('is-fallback'), { once: true });
+    image.decoding = 'async';
+    image.width = 640;
+    image.height = 360;
+    image.dataset.imageReveal = 'true';
+    image.dataset.imageFallback = '/img/especies/otro.svg';
+    if (!item.fotoUrl) image.dataset.fallbackAttempted = 'true';
     card.append(image);
 
     const title = makeElement('h3', '', item.nombre || 'Refugio aliado');
@@ -70,8 +88,9 @@ function renderList(list, items, selectRefugio) {
         button.type = 'button';
         button.dataset.refugioSelect = item.id;
         button.setAttribute('aria-label', `Enfocar ${item.nombre} en el mapa`);
-        const pin = makeElement('span', 'refuge-pin', '⌖');
+        const pin = makeElement('span', 'refuge-pin');
         pin.setAttribute('aria-hidden', 'true');
+        pin.append(makeIcon('pin'));
         const copy = makeElement('span', 'refuge-card-copy');
         copy.append(
             makeElement('strong', '', item.nombre),
@@ -81,8 +100,9 @@ function renderList(list, items, selectRefugio) {
         const distance = makeElement('small', 'refuge-distance');
         distance.dataset.distanceFor = item.id;
         copy.append(distance);
-        const arrow = makeElement('span', 'refuge-chevron', '↗');
+        const arrow = makeElement('span', 'refuge-chevron');
         arrow.setAttribute('aria-hidden', 'true');
+        arrow.append(makeIcon('arrow-up-right'));
         button.append(pin, copy, arrow);
         button.addEventListener('click', () => selectRefugio(item, true));
         button.addEventListener('pointerenter', () => selectRefugio(item, false), { passive: true });
@@ -193,7 +213,7 @@ export function initRefugiosMap() {
             const marker = window.L.marker([Number(item.latitud), Number(item.longitud)], {
                 icon: window.L.divIcon({
                     className: 'refuge-marker-shell',
-                    html: '<span class="refuge-map-marker" aria-hidden="true">⌖</span>',
+                    html: '<span class="refuge-map-marker" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" focusable="false"><use href="/img/icons.svg#pin"></use></svg></span>',
                     iconSize: [42, 48],
                     iconAnchor: [21, 44]
                 }),
