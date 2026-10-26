@@ -7,7 +7,7 @@
     <div class="alert alert-warning"><strong>Vista de demostración:</strong> los porcentajes se simulan y no representan análisis real de fotografías.</div>
     @if (Model.Count == 0)
     {
-        <div class="empty-state"><div class="empty-icon searching-scene-host" data-searching-scene aria-hidden="true"></div><h2>Aún no hay coincidencias</h2><p>Tu reporte permanece publicado. Vuelve a revisar pronto y comparte la búsqueda con tu comunidad.</p><a class="btn btn-soft" asp-controller="Adopcion" asp-action="Index">Explorar adopciones</a></div>
+        <div class="empty-state"><div class="empty-icon" aria-hidden="true"><svg class="icon-svg results-empty-icon" viewBox="0 0 24 24" focusable="false"><use href="@Url.Content("~/img/icons.svg")#paw"></use></svg></div><h2>Aún no hay coincidencias</h2><p>Tu reporte permanece publicado. Vuelve a revisar pronto y comparte la búsqueda con tu comunidad.</p><a class="btn btn-soft" asp-controller="Adopcion" asp-action="Index">Explorar adopciones</a></div>
     }
     else
     {

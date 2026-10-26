@@ -40,25 +40,34 @@ export function initScrollStory() {
             const steps = [...story.querySelectorAll('[data-story-step]')];
             if (!progress || !steps.length) return;
 
-            const timeline = gsap.timeline({
+            gsap.fromTo(progress, { scaleX: 0 }, {
+                scaleX: 1,
+                ease: 'none',
                 scrollTrigger: {
                     trigger: story,
-                    start: 'top top+=82',
-                    end: () => `+=${Math.round(window.innerHeight * 2)}`,
-                    pin: story,
-                    pinSpacing: true,
-                    scrub: 0.75,
-                    anticipatePin: 0.5,
+                    start: 'top 78%',
+                    end: 'bottom 34%',
+                    scrub: 0.45,
                     invalidateOnRefresh: true
                 }
             });
-            timeline.fromTo(progress, { scaleX: 0 }, { scaleX: 1, ease: 'none', duration: 1 }, 0);
             steps.forEach((step, index) => {
-                const position = index * 0.31;
-                timeline.fromTo(step,
-                    { y: 12, autoAlpha: 0.76, scale: 0.99 },
-                    { y: 0, autoAlpha: 1, scale: 1, duration: 0.34, ease: 'power2.out' },
-                    position);
+                gsap.fromTo(step,
+                    { y: 18, scale: 0.985 },
+                    {
+                        y: 0,
+                        scale: 1,
+                        duration: 0.62,
+                        delay: index * 0.08,
+                        ease: 'power2.out',
+                        clearProps: 'transform',
+                        scrollTrigger: {
+                            trigger: step,
+                            start: 'top 86%',
+                            once: true,
+                            toggleActions: 'play none none none'
+                        }
+                    });
             });
         });
     });

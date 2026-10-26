@@ -565,8 +565,8 @@ html.motion-fallback .site-footer .footer-bottom {
 }
 
 html.motion-fallback .reveal-pending {
-    opacity: 0;
-    transform: translate3d(0, 24px, 0);
+    opacity: .84;
+    transform: translate3d(0, 10px, 0);
 }
 
 html.motion-fallback .reveal-pending[data-reveal="left"] { transform: translate3d(-28px, 0, 0); }

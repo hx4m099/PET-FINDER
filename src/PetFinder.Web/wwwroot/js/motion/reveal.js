@@ -36,9 +36,9 @@ export function initReveal() {
         element.classList.add('reveal-pending');
 
         const direction = element.dataset.reveal ?? (element.matches('.section-heading') ? 'left' : undefined);
-        const from = { autoAlpha: 0.18, y: 48, scale: 0.975 };
-        if (direction === 'left') { from.x = -28; from.y = 0; }
-        else if (direction === 'right') { from.x = 28; from.y = 0; }
+        const from = { autoAlpha: 0.78, y: 24, scale: 0.99 };
+        if (direction === 'left') { from.x = -18; from.y = 0; }
+        else if (direction === 'right') { from.x = 18; from.y = 0; }
         else if (direction === 'scale') { from.scale = 0.94; from.y = 0; }
 
         const tween = gsap.fromTo(element, from, {
@@ -49,7 +49,7 @@ export function initReveal() {
             duration: REVEAL_DURATION,
             delay: Math.min(index, 4) * STAGGER_SECONDS,
             ease: 'power3.out',
-            scrollTrigger: { trigger: element, start: REVEAL_START, end: 'top 62%', scrub: 0.72, invalidateOnRefresh: true },
+            scrollTrigger: { trigger: element, start: REVEAL_START, once: true, toggleActions: 'play none none none', invalidateOnRefresh: true },
             onComplete: () => {
                 element.classList.add('reveal-visible');
                 element.classList.remove('reveal-pending');
