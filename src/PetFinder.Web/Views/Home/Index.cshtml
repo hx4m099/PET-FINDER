@@ -23,3 +23,7 @@
     <div class="col-md-6"><article class="feature-card feature-lost"><div class="feature-icon">⌕</div><h3>¿Se perdió tu compañero?</h3><p>Publica un reporte claro y encuentra avisos recientes de la misma especie y ciudad.</p><a asp-controller="Reportes" asp-action="Crear" class="text-link">Crear un reporte <span aria-hidden="true">→</span></a></article></div>
     <div class="col-md-6"><article class="feature-card feature-adopt"><div class="feature-icon">♡</div><h3>¿Listo para abrir tu hogar?</h3><p>Conoce mascotas disponibles en refugios aliados y solicita una visita presencial.</p><a asp-controller="Adopcion" asp-action="Index" class="text-link">Explorar adopciones <span aria-hidden="true">→</span></a></article></div>
 </div></section>
+
+@section Scripts {
+    <script type="module" src="~/js/three/landing-scene.js" asp-append-version="true"></script>
+}
