@@ -922,3 +922,40 @@ html.js-enabled .note-bottom .note-icon::after { animation-delay: 1.15s; }
     .community-section { overflow: clip; }
     .community-section::after { inset: 0; }
 }
+
+
+/* Home: keep the scroll cue centered and out of the content flow. */
+.hero-section > .hero-scroll-cue {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    bottom: 1.25rem;
+    left: 0;
+    width: auto;
+    justify-content: center;
+    transform: none;
+}
+
+
+@media (max-width: 1199.98px) {
+    .community-pattern {
+        right: 1.25rem;
+        width: min(24rem, calc(100vw - 2rem));
+        height: min(24rem, calc(100vw - 2rem));
+    }
+}
+
+
+/* Leaflet overscans tiles for panning; keep that overscan inside the map viewport. */
+.leaflet-map {
+    position: relative;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    contain: paint;
+}
+
+
+#main-content:has(#hero) {
+    overflow-x: clip;
+}
