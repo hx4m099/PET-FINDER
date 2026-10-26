@@ -40,7 +40,7 @@ PetFinder/
     └── PetFinder.Tests/              # Fase 5
 ```
 
-En esta **Fase 1** ya existen la solución y los proyectos `ENTITY`, `DATOS` y `DAL`; `BLL`, `PetFinder.Web` y `PetFinder.Tests` se agregarán en sus fases indicadas.
+Al completar la **Fase 2** ya existen la solución y los proyectos `ENTITY`, `DATOS`, `DAL` y `BLL`; `PetFinder.Web` y `PetFinder.Tests` se agregarán en sus fases indicadas.
 
 ## Referencias entre proyectos
 
@@ -51,23 +51,23 @@ Reglas objetivo: `PetFinder.Web → BLL → DAL → DATOS`; `ENTITY` es comparti
 | `ENTITY` | Ninguna de la solución |
 | `DATOS` | `ENTITY` |
 | `DAL` | `ENTITY`, `DATOS` |
-| `BLL` (Fase 2) | `DAL`, `ENTITY` |
+| `BLL` | `DAL`, `ENTITY` |
 | `PetFinder.Web` (Fase 3) | `BLL`, `ENTITY` únicamente |
 | `PetFinder.Tests` (Fase 5) | `BLL`, `ENTITY` |
 
-La GUI no accederá directamente a `DAL` ni a `DATOS`. `AddDal()` registra los cinco repositorios en memoria y un almacén singleton compartido.
+La GUI no accederá directamente a `DAL` ni a `DATOS`. `AddBll()` llama internamente a `AddDal()`, que registra los cinco repositorios en memoria y un almacén singleton compartido.
 
 ## Crear o abrir la solución en Visual Studio
 
-Para abrir el estado actual, abre `PetFinder.sln` con Visual Studio 2022 y selecciona el SDK de .NET 8. La solución de esta fase contiene únicamente bibliotecas y compila; aún no tiene un proyecto web de inicio.
+Para abrir el estado actual, abre `PetFinder.sln` con Visual Studio 2022 y selecciona el SDK de .NET 8. La solución contiene las bibliotecas `ENTITY`, `DATOS`, `DAL` y `BLL`; aún no tiene un proyecto web de inicio.
 
 Para recrearla manualmente desde Visual Studio:
 
 1. Crea una solución en blanco llamada `PetFinder` en la carpeta raíz del repositorio.
-2. Crea dentro de `src` tres proyectos **Class Library** con framework `.NET 8.0` y estos nombres exactos: `ENTITY`, `DATOS` y `DAL`.
-3. En **Dependencies → Add Project Reference**, configura `DATOS → ENTITY` y `DAL → ENTITY, DATOS`. `ENTITY` no debe referenciar otros proyectos.
-4. En NuGet instala en `DATOS` `Microsoft.EntityFrameworkCore` y `Microsoft.EntityFrameworkCore.Relational` versión `8.0.10`; en `DAL`, `Microsoft.Extensions.DependencyInjection.Abstractions` versión `8.0.2`.
-5. Organiza los archivos según el árbol anterior y usa **Build → Build Solution**.
+2. Crea dentro de `src` cuatro proyectos **Class Library** con framework `.NET 8.0` y estos nombres exactos: `ENTITY`, `DATOS`, `DAL` y `BLL`.
+3. En **Dependencies → Add Project Reference**, configura `DATOS → ENTITY`, `DAL → ENTITY, DATOS` y `BLL → DAL, ENTITY`. `ENTITY` no debe referenciar otros proyectos.
+4. En NuGet instala en `DATOS` `Microsoft.EntityFrameworkCore` y `Microsoft.EntityFrameworkCore.Relational` versión `8.0.10`; en `DAL`, `Microsoft.Extensions.DependencyInjection.Abstractions` versión `8.0.2`; y en `BLL`, `FluentValidation` `11.9.2`, `Microsoft.Extensions.DependencyInjection.Abstractions` `8.0.2` y `Microsoft.Extensions.Logging.Abstractions` `8.0.2`.
+5. Organiza los archivos según el árbol anterior, configura `Program.cs` con `builder.Services.AddBll()` cuando se cree la aplicación web y usa **Build → Build Solution**.
 
 Las versiones de paquetes aquí fijadas compilan con .NET 8. No se agrega todavía `Oracle.EntityFrameworkCore`; el proveedor Oracle se incorpora cuando se sustituya el almacenamiento en memoria.
 
@@ -81,13 +81,21 @@ Las versiones de paquetes aquí fijadas compilan con .NET 8. No se agrega todav�
 
 Los correos `@petfinder.local` del seed son datos demostrativos. El campo `PasswordHash` queda vacío: no son credenciales y no permiten iniciar sesión.
 
+## Qué incluye la Fase 2
+
+- Servicios `AuthService`, `ReporteService`, `CoincidenciaService`, `AdopcionService` y `CitaService`, DTOs y validadores FluentValidation además de DataAnnotations.
+- Registro de adoptantes e inicio de sesión mediante hash PBKDF2-SHA256 con sal aleatoria; el DTO de sesión nunca expone el hash.
+- Coincidencias: primero el repositorio filtra por especie, ciudad y fecha reciente; después el mock genera porcentajes deterministas entre 55 y 95, que se ordenan de mayor a menor. El mock **no analiza imágenes reales**.
+- Citas: verifica usuario, refugio y mascota activa; rechaza horarios pasados y cruces con citas pendientes o confirmadas; permite confirmar solo citas pendientes y cancelar citas pendientes o confirmadas con autorización del adoptante, refugio o administrador.
+- `AddBll()` registra servicios, validadores, `TimeProvider` y la implementación simulada de `IImageSimilarityService`, y llama internamente a `AddDal()`.
+
 ## Compilar
 
 ```powershell
 dotnet build PetFinder.sln --configuration Release
 ```
 
-Con Visual Studio también puedes compilar con **Build → Build Solution**. La Fase 1 no incluye proyecto de pruebas; las pruebas xUnit/Moq están previstas para la Fase 5.
+Con Visual Studio también puedes compilar con **Build → Build Solution**. Las pruebas unitarias xUnit/Moq sobre BLL están previstas para la Fase 5.
 
 ## Inicialización y flujo de GitHub
 
@@ -103,7 +111,7 @@ git remote add origin https://github.com/hx4m099/PET-FINDER.git
 git push -u origin main
 ```
 
-Cada fase se desarrolla en su propia rama. Para Fase 1:
+Cada fase se desarrolla en su propia rama. Para las fases 1 y 2:
 
 ```powershell
 git switch -c feature/fase-1-datos
@@ -117,14 +125,26 @@ git merge --no-ff feature/fase-1-datos
 git push origin main
 ```
 
+```powershell
+git switch -c feature/fase-2-bll
+dotnet build PetFinder.sln --configuration Release
+git add .
+git commit -m "feat: servicios BLL y reglas de negocio"
+git push -u origin feature/fase-2-bll
+git switch main
+git pull --ff-only origin main
+git merge --no-ff feature/fase-2-bll
+git push origin main
+```
+
 El `.gitignore` excluye `appsettings.Development.json`, otros archivos locales de configuración y archivos de secretos; `appsettings.example.json` permanece versionable para una fase posterior. No se incluyen contraseñas, claves ni cadenas de conexión.
 
 ## Estado de fases
 
 | Fase | Alcance | Estado |
 |---|---|---|
-| 1 | ENTITY, DATOS y DAL; repositorios en memoria | Implementada; compilación verificada |
-| 2 | BLL, reglas, servicios, DTOs y similitud simulada | Pendiente de confirmación |
+| 1 | ENTITY, DATOS y DAL; repositorios en memoria | Implementada y publicada |
+| 2 | BLL, reglas, servicios, DTOs y similitud simulada | Implementada y verificada; sin pruebas xUnit todavía |
 | 3 | ASP.NET Core MVC, vistas y autenticación simulada | Pendiente |
 | 4 | Escenas Three.js y animaciones accesibles | Pendiente |
 | 5 | Pruebas unitarias xUnit + Moq sobre BLL | Pendiente |
