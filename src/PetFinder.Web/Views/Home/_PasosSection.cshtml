@@ -1,0 +1,30 @@
+@{
+    var reportar = Url.Action("Crear", "Reportes") ?? "/Reportes/Crear";
+    var adoptar = Url.Action("Index", "Adopcion") ?? "/Adopcion";
+}
+<section id="pasos" class="steps-section page-section" data-scroll-section aria-labelledby="steps-title">
+    <div class="container steps-container">
+        <div class="section-heading" data-reveal>
+            <span class="eyebrow">Tres pasos, un nuevo comienzo</span>
+            <h2 id="steps-title">Pequeñas acciones.<br /><em>Grandes reencuentros.</em></h2>
+        </div>
+        <div class="steps-grid">
+            <svg class="steps-connector" viewBox="0 0 1000 150" preserveAspectRatio="none" aria-hidden="true"><path d="M40 90 C200 20, 300 20, 460 90 S720 160, 960 65" pathLength="1" /></svg>
+            <article class="step-card" data-reveal>
+                <span class="step-number">01</span><span class="step-symbol" aria-hidden="true">⌕</span>
+                <h3>Busca con calma</h3><p>Explora avisos cercanos y mascotas de refugios aliados con información clara.</p>
+                <a class="arrow-link" href="@reportar">Buscar una mascota <span aria-hidden="true">↗</span></a>
+            </article>
+            <article class="step-card" data-reveal>
+                <span class="step-number">02</span><span class="step-symbol" aria-hidden="true">♡</span>
+                <h3>Conoce su historia</h3><p>Lee su perfil, descubre su personalidad y encuentra un refugio cerca de ti.</p>
+                <a class="arrow-link" href="@adoptar">Ver historias <span aria-hidden="true">↗</span></a>
+            </article>
+            <article class="step-card" data-reveal>
+                <span class="step-number">03</span><span class="step-symbol" aria-hidden="true">✳</span>
+                <h3>Comparte lo verificado</h3><p>Publica detalles útiles para que la comunidad pueda ayudar de forma responsable.</p>
+                <a class="arrow-link" href="@reportar">Publicar un aviso <span aria-hidden="true">↗</span></a>
+            </article>
+        </div>
+    </div>
+</section>

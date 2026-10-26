@@ -1,0 +1,17 @@
+@model PetFinder.Web.ViewModels.HomeViewModel
+<section id="impacto" class="impact-section page-section" data-scroll-section aria-labelledby="impact-title">
+    <div class="container">
+        <div class="section-heading section-heading-centered" data-reveal>
+            <span class="eyebrow">Pequeñas acciones, grandes cambios</span>
+            <h2 id="impact-title">Una comunidad que <em>sí cuenta.</em></h2>
+            <p>Indicadores calculados desde los registros de demostración de PetFinder.</p>
+        </div>
+        <div class="impact-grid">
+            <article class="impact-card" data-reveal><span class="impact-icon" aria-hidden="true">♡</span><strong data-counter="@Model.Estadisticas.MascotasReunidas">@Model.Estadisticas.MascotasReunidas</strong><span>Mascotas reunidas</span></article>
+            <article class="impact-card" data-reveal><span class="impact-icon" aria-hidden="true">⌖</span><strong data-counter="@Model.Estadisticas.RefugiosAliados">@Model.Estadisticas.RefugiosAliados</strong><span>Refugios aliados</span></article>
+            <article class="impact-card" data-reveal><span class="impact-icon" aria-hidden="true">⌂</span><strong data-counter="@Model.Estadisticas.Adopciones">@Model.Estadisticas.Adopciones</strong><span>Adopciones</span></article>
+            <article class="impact-card" data-reveal><span class="impact-icon" aria-hidden="true">◉</span><strong data-counter="@Model.Estadisticas.ReportesActivos">@Model.Estadisticas.ReportesActivos</strong><span>Reportes activos</span></article>
+        </div>
+        <p class="demo-note">Los perfiles, ubicaciones e historias iniciales son ficticios y solo sirven para explorar la demo.</p>
+    </div>
+</section>

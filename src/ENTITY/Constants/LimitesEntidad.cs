@@ -7,6 +7,7 @@ public static class LimitesEntidad
     public const int CorreoElectronico = 254;
     public const int PasswordHash = 512;
     public const int Telefono = 32;
+    public const int Horario = 120;
     public const int Ciudad = 100;
     public const int Direccion = 250;
     public const int Raza = 100;

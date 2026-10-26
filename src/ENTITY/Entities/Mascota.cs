@@ -13,6 +13,7 @@ public sealed class Mascota
     public string FotoUrl { get; set; } = string.Empty;
     public string Ciudad { get; set; } = string.Empty;
     public bool DisponibleAdopcion { get; set; } = true;
+    public bool Adoptada { get; set; }
     public bool Activa { get; set; } = true;
     public DateTime FechaPublicacionUtc { get; set; } = DateTime.UtcNow;
 }

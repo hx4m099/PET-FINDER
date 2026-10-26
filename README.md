@@ -4,7 +4,7 @@ Aplicación ASP.NET Core MVC con .NET 8 para reportar mascotas perdidas o encont
 
 ## Estructura de la solución
 
-El árbol objetivo al completar las cinco fases será:
+El árbol actual refleja seis fases de implementación:
 
 ```text
 PetFinder/
@@ -28,19 +28,20 @@ PetFinder/
 │   │   ├── Exceptions/
 │   │   ├── Services/
 │   │   └── Validators/
-│   └── PetFinder.Web/               # Fases 3 y 4
+│   └── PetFinder.Web/               # Fases 3, 4 y 6
 │       ├── Controllers/
 │       ├── ViewModels/
 │       ├── Views/
 │       └── wwwroot/
 │           ├── css/
+│           ├── js/scroll/            # Fase 6
 │           ├── js/three/
 │           └── images/
 └── tests/
-    └── PetFinder.Tests/              # Fase 5
+    └── PetFinder.Tests/              # Fases 5 y 6
 ```
 
-Al completar la **Fase 3** ya existen `ENTITY`, `DATOS`, `DAL`, `BLL` y `PetFinder.Web`; `PetFinder.Tests` se agregará en la Fase 5.
+La solución incluye `ENTITY`, `DATOS`, `DAL`, `BLL`, `PetFinder.Web` y `PetFinder.Tests`; el catálogo, los reportes y los paneles usan repositorios en memoria en esta demo.
 
 ## Referencias entre proyectos
 
@@ -107,8 +108,18 @@ Los correos `@petfinder.local` del seed son datos demostrativos. El campo `Passw
 ## Qué incluye la Fase 5
 
 - Proyecto `tests/PetFinder.Tests` con xUnit, Moq y referencias limitadas a BLL y ENTITY.
-- 29 pruebas cubren autenticación/PBKDF2, validaciones, filtros y orden de coincidencias, disponibilidad del catálogo, reportes, reservas y cruces de horario, transiciones de citas y autorización de refugio/administración.
+- 33 pruebas cubren autenticación/PBKDF2, validaciones, filtros y orden de coincidencias, disponibilidad del catálogo, reportes, reservas y cruces de horario, transiciones de citas, autorización de refugio/administración, coordenadas y estadísticas.
 - Los casos usan repositorios simulados y un `TimeProvider` congelado para mantener resultados deterministas.
+
+## Qué incluye la Fase 6
+
+- La landing se compone de ocho parciales: impacto, pasos, mapa, mascotas destacadas, tablero comunitario, historias ficticias, preguntas frecuentes y llamado final; conserva la escena Three.js del hero.
+- `IRefugioService` prepara DTOs públicos solo para refugios activos de Valledupar con latitud/longitud válidas, cuenta mascotas disponibles por especie y ordena por distancia Haversine. El endpoint `GET /api/refugios` usa ese servicio; la GUI no referencia DAL ni DATOS.
+- `IEstadisticasService` calcula reencuentros, refugios aliados, adopciones y reportes activos desde estados explícitos del dominio. No genera cifras sintéticas.
+- El mapa muestra lista sincronizada, búsqueda por refugio/dirección/ciudad, filtro por especie, popups seguros y enlace al catálogo. La geolocalización solo se solicita al pulsar “Usar mi ubicación”; sin permiso sigue disponible el directorio.
+- Leaflet 1.9.4 carga mosaicos del servidor estándar de OpenStreetMap con atribución visible y filtro cálido solo en el mapa. Se requieren internet para el mapa y sus fuentes externas; el servidor de tiles es best-effort, sin SLA. La app no precarga ni descarga mosaicos fuera del viewport.
+- Contadores, reveal, conector SVG, parallax, navbar inteligente y botón de regreso respetan `prefers-reduced-motion`. El contenido y los enlaces principales permanecen legibles si JavaScript, Leaflet o los mosaicos fallan.
+- El centro, los límites de navegación del mapa, los seis refugios, las mascotas y los reportes seed corresponden a Valledupar, Cesar, Colombia; ubicaciones, direcciones, contactos y testimonios son ficticios. `MapaOptions` en `appsettings.json` configura el centro y zoom iniciales.
 
 ## Compilar
 
@@ -130,7 +141,7 @@ dotnet run --project src/PetFinder.Web/PetFinder.Web.csproj
 
 Al iniciar en Development, usa “Acceso de demostración local” en el login para explorar los tres roles con los usuarios seed. Ese selector no está disponible fuera de Development y las cuentas seed no tienen contraseñas.
 
-Con Visual Studio puedes compilar con **Build → Build Solution** o ejecutar los tests desde **Test → Run All Tests**.
+Con Visual Studio puedes compilar con **Build → Build Solution** o ejecutar los tests desde **Test → Run All Tests**. Para abrir el mapa necesitas conexión a internet; si Leaflet o OpenStreetMap no están disponibles, la landing conserva el directorio de refugios.
 
 ## Inicialización y flujo de GitHub
 
@@ -194,6 +205,7 @@ El `.gitignore` excluye `appsettings.Development.json`, uploads locales y archiv
 | 2 | BLL, reglas, servicios, DTOs y similitud simulada | Implementada y verificada |
 | 3 | ASP.NET Core MVC, vistas y autenticación simulada | Implementada; build y smoke HTTP verificados |
 | 4 | Escenas Three.js y animaciones accesibles | Implementada; build y asset HTTP verificados |
-| 5 | Pruebas unitarias xUnit + Moq sobre BLL | Implementada; 29/29 pruebas aprobadas |
+| 5 | Pruebas unitarias xUnit + Moq sobre BLL | Implementada; 33/33 pruebas aprobadas |
+| 6 | Landing por scroll, mapa sincronizado, API, accesibilidad y estilos | Implementada; build, tests y smoke HTTP verificados |
 
 Al conectar Oracle en una fase posterior se configurará `PetFinderDbContext` con el proveedor `Oracle.EntityFrameworkCore` desde el registro de servicios de `AddDal()`, sustituyendo los repositorios en memoria sin cambiar BLL ni la GUI. Las credenciales de Oracle deberán ir en User Secrets o en configuración local ignorada por Git.

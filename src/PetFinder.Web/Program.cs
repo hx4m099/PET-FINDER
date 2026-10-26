@@ -1,11 +1,16 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using PetFinder.BLL;
 using PetFinder.Web.Middleware;
+using PetFinder.Web.ViewModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(options =>
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)));
 builder.Services.AddBll();
+builder.Services.Configure<MapaOptions>(builder.Configuration.GetSection(MapaOptions.SectionName));
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

@@ -22,6 +22,8 @@ public static class DependencyInjection
         services.AddScoped<ReporteService>();
         services.AddScoped<CoincidenciaService>();
         services.AddScoped<AdopcionService>();
+        services.AddScoped<IRefugioService, RefugioService>();
+        services.AddScoped<IEstadisticasService, EstadisticasService>();
         services.AddScoped<CitaService>();
         services.AddScoped<GestionRefugioService>();
         services.AddScoped<AdministracionService>();

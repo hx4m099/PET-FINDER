@@ -1,0 +1,41 @@
+@model PetFinder.Web.ViewModels.HomeViewModel
+<section id="refugios" class="map-section page-section" data-scroll-section aria-labelledby="map-title">
+    <div class="container">
+        <div class="section-heading section-heading-centered" data-reveal>
+            <span class="eyebrow">A un paseo de distancia</span>
+            <h2 id="map-title">Refugios aliados en <em>Valledupar.</em></h2>
+            <span class="map-location-pill"><span aria-hidden="true">⌖</span> Valledupar, Cesar, Colombia</span>
+            <p>Explora perfiles y publicaciones de ejemplo de Valledupar. Las ubicaciones, direcciones y contactos son ficticios.</p>
+        </div>
+        <div class="map-filters" data-reveal>
+            <label class="map-search"><span>Busca por nombre o barrio</span><input id="refugio-search" class="form-control" type="search" placeholder="Ej. Novalito" autocomplete="off" /></label>
+            <label><span>Especie</span><select id="refugio-species" class="form-select"><option value="all">Todos</option><option value="perro">Perros</option><option value="gato">Gatos</option></select></label>
+            <button id="use-my-location" class="btn btn-outline-brand" type="button">Usar mi ubicación</button>
+        </div>
+        <div class="map-layout">
+            <div class="refuge-list-panel">
+                <div class="refuge-list-heading"><div><span class="eyebrow">Directorio</span><h3>Refugios aliados</h3></div><span id="refuge-result-count" class="result-count">@Model.Refugios.Count()</span></div>
+                <p id="location-status" class="map-help" role="status" aria-live="polite">Elige “Usar mi ubicación” para ordenar por cercanía. Solo pediremos permiso al pulsar el botón.</p>
+                <ul id="refugio-list" class="refuge-list">
+                    @foreach (var refugio in Model.Refugios)
+                    {
+                        var especiesCsv = string.Join(",", refugio.EspeciesDisponibles.Select(especie => especie.ToString().ToLowerInvariant()));
+                        <li class="refuge-list-item" data-refugio-id="@refugio.Id" data-nombre="@refugio.Nombre" data-direccion="@refugio.Direccion" data-ciudad="@refugio.Ciudad" data-horario="@refugio.Horario" data-telefono="@refugio.Telefono" data-foto-url="@refugio.FotoUrl" data-latitud="@refugio.Latitud.ToString(System.Globalization.CultureInfo.InvariantCulture)" data-longitud="@refugio.Longitud.ToString(System.Globalization.CultureInfo.InvariantCulture)" data-mascotas="@refugio.MascotasDisponibles" data-especies="@especiesCsv">
+                            <button class="refuge-list-card" type="button" data-refugio-select="@refugio.Id" aria-label="Enfocar @refugio.Nombre en el mapa">
+                                <span class="refuge-pin" aria-hidden="true">⌖</span><span class="refuge-card-copy"><strong>@refugio.Nombre</strong><small>@refugio.Direccion</small><small>@refugio.MascotasDisponibles mascotas · @refugio.Horario</small><small class="refuge-distance" data-distance-for="@refugio.Id"></small></span><span class="refuge-chevron" aria-hidden="true">↗</span>
+                            </button>
+                            <a class="refuge-catalog-link" href="@Url.Action("Index", "Adopcion", new { refugioId = refugio.Id })">Ver mascotas y agendar cita <span aria-hidden="true">→</span></a>
+                        </li>
+                    }
+                </ul>
+                <p id="refuge-empty-state" class="empty-map-state" hidden>No hay refugios que coincidan con esos filtros.</p>
+            </div>
+            <div class="map-frame" data-reveal>
+                <div id="refugios-map" class="leaflet-map" data-api-url="@Url.Content("~/api/refugios")" data-center-lat="@Model.MapaCentroLatitud.ToString(System.Globalization.CultureInfo.InvariantCulture)" data-center-lon="@Model.MapaCentroLongitud.ToString(System.Globalization.CultureInfo.InvariantCulture)" data-zoom="@Model.MapaZoomInicial" aria-label="Mapa interactivo de refugios aliados"></div>
+                <p id="map-status" class="map-status" role="status" aria-live="polite">Cargando el mapa; la lista de refugios está disponible aunque no haya conexión con el mapa.</p>
+                <div class="map-controls"><button id="map-wheel-toggle" type="button" class="map-wheel-toggle" aria-pressed="false">Activar zoom con rueda</button><span id="map-instructions">El zoom de rueda está desactivado para no interrumpir el desplazamiento de la página.</span></div>
+                <small class="map-attribution-note">Mapa © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>. Las ubicaciones mostradas son de ejemplo.</small>
+            </div>
+        </div>
+    </div>
+</section>

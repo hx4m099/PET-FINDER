@@ -69,4 +69,20 @@ public sealed class ReporteService(
 
         return reporteRepository.ObtenerPorUsuarioAsync(usuarioId, cancellationToken);
     }
+
+    /// <summary>Obtiene avisos activos recientes para el tablero público.</summary>
+    public async Task<IReadOnlyCollection<ReporteMascota>> ObtenerTableroAsync(int cantidad = 6, CancellationToken cancellationToken = default)
+    {
+        if (cantidad is < 1 or > 20)
+        {
+            throw new BusinessRuleException("La cantidad de avisos debe estar entre 1 y 20.");
+        }
+
+        var reportes = await reporteRepository.ObtenerTodosAsync(cancellationToken);
+        return reportes
+            .Where(reporte => reporte.Activo)
+            .OrderByDescending(reporte => reporte.FechaReporteUtc)
+            .Take(cantidad)
+            .ToArray();
+    }
 }

@@ -19,7 +19,9 @@ public sealed class MascotaConfiguration : IEntityTypeConfiguration<Mascota>
         builder.Property(mascota => mascota.Descripcion).HasMaxLength(LimitesEntidad.Descripcion).IsRequired();
         builder.Property(mascota => mascota.FotoUrl).HasMaxLength(LimitesEntidad.Url).IsRequired();
         builder.Property(mascota => mascota.Ciudad).HasMaxLength(LimitesEntidad.Ciudad).IsRequired();
+        builder.Property(mascota => mascota.Adoptada).IsRequired();
         builder.HasIndex(mascota => new { mascota.Ciudad, mascota.Especie, mascota.DisponibleAdopcion });
+        builder.HasIndex(mascota => mascota.Adoptada);
         builder.HasOne<Refugio>().WithMany().HasForeignKey(mascota => mascota.RefugioId).OnDelete(DeleteBehavior.Restrict);
         builder.HasData(SeedData.Mascotas.Cast<object>());
     }
