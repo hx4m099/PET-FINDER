@@ -1,0 +1,23 @@
+@model PetFinder.Web.ViewModels.ReporteViewModel
+@using PetFinder.Entity.Enums
+@{
+    ViewData["Title"] = "Reportar mascota";
+}
+<section class="form-page container">
+    <div class="section-heading"><span class="eyebrow">Cada detalle ayuda</span><h1>Cuéntanos sobre la mascota</h1><p>Incluye una foto clara y una ubicación precisa para encontrar avisos relacionados.</p></div>
+    <form asp-action="Crear" method="post" enctype="multipart/form-data" class="form-card">
+        <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+        <div class="row g-3">
+            <div class="col-md-6"><label asp-for="Tipo" class="form-label"></label><select asp-for="Tipo" asp-items="Html.GetEnumSelectList<TipoReporte>()" class="form-select"></select></div>
+            <div class="col-md-6"><label asp-for="Especie" class="form-label"></label><select asp-for="Especie" asp-items="Html.GetEnumSelectList<Especie>()" class="form-select"></select></div>
+            <div class="col-md-6"><label asp-for="NombreMascota" class="form-label"></label><input asp-for="NombreMascota" class="form-control" /><span asp-validation-for="NombreMascota" class="field-error"></span></div>
+            <div class="col-md-6"><label asp-for="Raza" class="form-label"></label><input asp-for="Raza" class="form-control" /><span asp-validation-for="Raza" class="field-error"></span></div>
+            <div class="col-md-6"><label asp-for="Ciudad" class="form-label"></label><input asp-for="Ciudad" class="form-control" autocomplete="address-level2" /><span asp-validation-for="Ciudad" class="field-error"></span></div>
+            <div class="col-md-6"><label asp-for="FechaEvento" class="form-label"></label><input asp-for="FechaEvento" class="form-control" type="datetime-local" /><span asp-validation-for="FechaEvento" class="field-error"></span></div>
+            <div class="col-12"><label asp-for="Descripcion" class="form-label"></label><textarea asp-for="Descripcion" class="form-control" rows="4"></textarea><span asp-validation-for="Descripcion" class="field-error"></span></div>
+            <div class="col-12"><label asp-for="Foto" class="form-label"></label><input asp-for="Foto" type="file" class="form-control" accept="image/jpeg,image/png,image/webp" /><span asp-validation-for="Foto" class="field-error"></span><div class="mt-3"><label asp-for="FotoUrl" class="form-label">O usa una URL de imagen</label><input asp-for="FotoUrl" class="form-control" placeholder="https://… o /images/mascota.jpg" /><span asp-validation-for="FotoUrl" class="field-error"></span></div><div class="photo-preview" aria-live="polite"><img id="photo-preview-image" alt="Vista previa de la fotografía seleccionada" hidden /><span id="photo-preview-placeholder">La vista previa aparecerá aquí</span></div></div>
+        </div>
+        <div class="d-flex flex-wrap gap-3 mt-4"><button class="btn btn-primary btn-lg" type="submit">Publicar y buscar coincidencias</button><a class="btn btn-soft btn-lg" asp-controller="Home" asp-action="Index">Cancelar</a></div>
+    </form>
+</section>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> <script src="~/js/photo-preview.js" asp-append-version="true"></script> }

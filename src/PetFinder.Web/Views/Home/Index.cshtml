@@ -1,0 +1,25 @@
+@{
+    ViewData["Title"] = "Encuentra, ayuda, adopta";
+}
+<section class="hero-section">
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <span class="eyebrow"><span class="eyebrow-dot"></span> Una comunidad que cuida</span>
+            <h1>Una huella perdida.<br /><span>Un hogar por encontrar.</span></h1>
+            <p class="hero-lead">Conectamos familias, personas solidarias y refugios para que cada mascota encuentre el camino de vuelta o una nueva familia.</p>
+            <div class="hero-actions"><a class="btn btn-primary btn-lg" asp-controller="Reportes" asp-action="Crear">Buscar una mascota</a><a class="btn btn-soft btn-lg" asp-controller="Adopcion" asp-action="Index">Conocer para adoptar</a></div>
+            <div class="hero-note"><span aria-hidden="true">✦</span> Cerca de ti, con el apoyo de refugios aliados.</div>
+        </div>
+        <div class="hero-art" aria-label="Ilustración decorativa de mascotas">
+            <div class="hero-art-glow"></div><div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div><div class="paw-mark paw-one" aria-hidden="true">🐾</div><div class="paw-mark paw-two" aria-hidden="true">🐾</div>
+            <div class="pet-illustration" aria-hidden="true"><div class="pet-sun"></div><div class="pet-card pet-dog"><span>🐶</span></div><div class="pet-card pet-cat"><span>🐱</span></div><div class="pet-heart">♡</div></div>
+            <div class="floating-note note-top"><span class="note-icon">⌕</span><span><strong>Buscando</strong><small>Una nueva coincidencia</small></span></div><div class="floating-note note-bottom"><span class="note-icon note-icon-green">♥</span><span><strong>Adopción responsable</strong><small>Con refugios aliados</small></span></div>
+            <div class="hero-3d-canvas" data-scene="landing" aria-hidden="true"></div>
+        </div>
+    </div>
+</section>
+<section class="trust-strip"><div class="container trust-items"><div><strong>01</strong><span>Reporta con una foto</span></div><div><strong>02</strong><span>Conecta con coincidencias</span></div><div><strong>03</strong><span>Visita un refugio aliado</span></div></div></section>
+<section class="section container home-cards"><div class="section-heading"><span class="eyebrow">¿Cómo podemos ayudarte?</span><h2>Dos caminos, un mismo amor</h2></div><div class="row g-4">
+    <div class="col-md-6"><article class="feature-card feature-lost"><div class="feature-icon">⌕</div><h3>¿Se perdió tu compañero?</h3><p>Publica un reporte claro y encuentra avisos recientes de la misma especie y ciudad.</p><a asp-controller="Reportes" asp-action="Crear" class="text-link">Crear un reporte <span aria-hidden="true">→</span></a></article></div>
+    <div class="col-md-6"><article class="feature-card feature-adopt"><div class="feature-icon">♡</div><h3>¿Listo para abrir tu hogar?</h3><p>Conoce mascotas disponibles en refugios aliados y solicita una visita presencial.</p><a asp-controller="Adopcion" asp-action="Index" class="text-link">Explorar adopciones <span aria-hidden="true">→</span></a></article></div>
+</div></section>
