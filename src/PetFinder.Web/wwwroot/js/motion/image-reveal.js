@@ -1,6 +1,6 @@
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
-const REVEAL_START = 'top 94%';
-const REVEAL_DURATION = 0.9;
+const REVEAL_START = 'top 92%';
+const REVEAL_DURATION = 0.55;
 const STAGGER_SECONDS = 0.1;
 
 export function initImageReveal() {
@@ -48,9 +48,10 @@ export function initImageReveal() {
                         opacity: 1,
                         duration: REVEAL_DURATION,
                         ease: 'power3.out',
-                        scrollTrigger: { trigger: wrapper, start: REVEAL_START, end: 'top 58%', scrub: 0.65, invalidateOnRefresh: true },
+                        clearProps: 'clipPath,transform,opacity',
+                        scrollTrigger: { trigger: wrapper, start: REVEAL_START, once: true, invalidateOnRefresh: true },
                         onStart: () => wrapper.classList.remove('is-loading'),
-                        onComplete: () => wrapper.classList.add('is-revealed')
+                        onComplete: () => revealWithCss(wrapper)
                     });
                 return;
             }

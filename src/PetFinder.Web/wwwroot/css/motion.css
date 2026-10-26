@@ -910,3 +910,15 @@ html.js-enabled .note-bottom .note-icon::after { animation-delay: 1.15s; }
     .community-pattern { animation: none !important; }
     .community-card-photo { height: 190px; }
 }
+
+
+/* Keep map decor clean: the old oversized pseudo-circle reads like a stray marker. */
+.map-section::before {
+    display: none !important;
+    content: none !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .community-section { overflow: clip; }
+    .community-section::after { inset: 0; }
+}
