@@ -52,9 +52,9 @@
 }
 
 .img-reveal[data-image-prepared="true"]:not(.is-revealed) > img {
-    clip-path: inset(0 0 100% 0);
-    transform: scale(1.15);
-    opacity: .9;
+    clip-path: inset(0 100% 0 0);
+    transform: scale(1.08);
+    opacity: .94;
 }
 
 .img-reveal.is-revealed > img {
@@ -555,7 +555,10 @@ html.js-enabled .search-story-progress > span { transform: scaleX(0); }
 
 /* Entrada con IntersectionObserver cuando GSAP/ScrollTrigger no están disponibles */
 html.motion-fallback [data-reveal],
-html.motion-fallback [data-story-step] {
+html.motion-fallback [data-story-step],
+html.motion-fallback .section-heading,
+html.motion-fallback .site-footer .footer-grid,
+html.motion-fallback .site-footer .footer-bottom {
     transition: opacity 720ms var(--motion-ease-out), transform 720ms var(--motion-ease-out);
     transition-delay: var(--reveal-delay, 0ms);
     will-change: opacity, transform;
@@ -766,4 +769,123 @@ html.js-enabled .note-bottom .note-icon::after { animation-delay: 1.15s; }
 @media (prefers-reduced-motion: reduce) {
     .page-section::before,
     .page-section::after { animation: none !important; }
+}
+
+
+/* Scroll-forward polish: vivid but restrained moving ambience and photographic crop. */
+@media (prefers-reduced-motion: no-preference) {
+    .page-section:not(.community-section) {
+        position: relative;
+        isolation: isolate;
+    }
+
+    .page-section:not(.community-section)::before,
+    .page-section:not(.community-section)::after {
+        position: absolute;
+        z-index: 0;
+        inset: 0;
+        content: "";
+        pointer-events: none;
+    }
+
+    .page-section:not(.community-section)::before {
+        background:
+            radial-gradient(ellipse at 12% 24%, rgba(244, 152, 105, .20), transparent 34%),
+            radial-gradient(ellipse at 88% 75%, rgba(133, 163, 126, .19), transparent 35%),
+            radial-gradient(ellipse at 58% 8%, rgba(238, 205, 151, .16), transparent 30%);
+        background-size: 160% 160%;
+        opacity: .82;
+        animation: section-aurora-drift 19s ease-in-out infinite alternate;
+    }
+
+    .page-section:not(.community-section)::after {
+        inset: auto 4% 7% auto;
+        width: clamp(100px, 15vw, 190px);
+        aspect-ratio: 1;
+        opacity: .065;
+        background: url('/img/paw-pattern.svg') center / contain no-repeat;
+        animation: section-paw-float 13s ease-in-out infinite alternate;
+    }
+
+    .page-section:not(.community-section) > .container,
+    .page-section:not(.community-section) > .steps-container {
+        position: relative;
+        z-index: 1;
+    }
+
+    .community-section {
+        position: relative;
+        isolation: isolate;
+        background: #3c3028;
+    }
+
+    .community-section::before {
+        position: absolute;
+        z-index: 0;
+        inset: 0;
+        content: "";
+        pointer-events: none;
+        background:
+            radial-gradient(ellipse at 8% 18%, rgba(238, 129, 85, .28), transparent 36%),
+            radial-gradient(ellipse at 90% 82%, rgba(127, 164, 126, .27), transparent 40%),
+            linear-gradient(125deg, #3d3028 0%, #49382b 48%, #35433a 100%);
+        background-size: 160% 160%;
+        animation: community-aurora-drift 16s ease-in-out infinite alternate;
+    }
+
+    .community-content { position: relative; z-index: 1; }
+
+    .site-footer {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        background: #30372f;
+    }
+
+    .site-footer::before {
+        position: absolute;
+        z-index: 0;
+        inset: -60%;
+        content: "";
+        pointer-events: none;
+        background: radial-gradient(ellipse at 28% 50%, rgba(239, 130, 85, .24), transparent 36%), radial-gradient(ellipse at 76% 55%, rgba(113, 143, 114, .27), transparent 40%);
+        animation: footer-aurora-drift 21s ease-in-out infinite alternate;
+    }
+
+    .site-footer > .container { position: relative; z-index: 1; }
+
+    .community-pattern { animation: community-pattern-drift 20s ease-in-out infinite alternate; }
+    .community-card-photo { height: 216px; }
+    .community-card-photo > .img-reveal > img { object-position: 50% 38%; }
+}
+
+@keyframes section-aurora-drift {
+    from { background-position: 0% 15%, 100% 80%, 65% 0%; }
+    to { background-position: 75% 90%, 18% 10%, 15% 85%; }
+}
+
+@keyframes community-aurora-drift {
+    from { background-position: 0% 18%, 100% 82%, 0% 50%; }
+    to { background-position: 78% 86%, 14% 8%, 100% 50%; }
+}
+
+@keyframes footer-aurora-drift {
+    to { transform: translate3d(10%, -7%, 0) rotate(8deg) scale(1.08); }
+}
+
+@keyframes section-paw-float {
+    to { transform: translate3d(-12px, -20px, 0) rotate(9deg); }
+}
+
+@media (max-width: 575.98px) and (prefers-reduced-motion: no-preference) {
+    .community-card-photo { height: 190px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-section::before,
+    .page-section::after,
+    .community-section::before,
+    .site-footer::before,
+    .community-pattern { animation: none !important; }
+    .community-card-photo { height: 190px; }
 }

@@ -1,5 +1,5 @@
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
-const REVEAL_START = 'top 88%';
+const REVEAL_START = 'top 94%';
 const REVEAL_DURATION = 0.9;
 const STAGGER_SECONDS = 0.1;
 
@@ -40,21 +40,17 @@ export function initImageReveal() {
             const scrollTrigger = window.ScrollTrigger;
             if (gsap && scrollTrigger) {
                 gsap.registerPlugin(scrollTrigger);
-                const siblings = [...(wrapper.parentElement?.querySelectorAll(':scope > .img-reveal') ?? [])];
-                const delay = Math.min(Math.max(siblings.indexOf(wrapper), 0), 4) * STAGGER_SECONDS;
                 gsap.fromTo(image,
-                    { clipPath: 'inset(0 0 100% 0)', scale: 1.15, opacity: 0.9 },
+                    { clipPath: 'inset(0 100% 0 0)', scale: 1.08, opacity: 0.94 },
                     {
                         clipPath: 'inset(0 0 0 0)',
                         scale: 1,
                         opacity: 1,
                         duration: REVEAL_DURATION,
-                        delay,
                         ease: 'power3.out',
-                        clearProps: 'clipPath,transform,opacity',
-                        scrollTrigger: { trigger: wrapper, start: REVEAL_START, once: true },
+                        scrollTrigger: { trigger: wrapper, start: REVEAL_START, end: 'top 58%', scrub: 0.65, invalidateOnRefresh: true },
                         onStart: () => wrapper.classList.remove('is-loading'),
-                        onComplete: () => revealWithCss(wrapper)
+                        onComplete: () => wrapper.classList.add('is-revealed')
                     });
                 return;
             }

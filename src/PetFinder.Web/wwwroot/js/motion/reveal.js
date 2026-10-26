@@ -1,12 +1,13 @@
 import { initReveal as initRevealFallback } from '../scroll/reveal.js';
 
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
-const REVEAL_START = 'top 86%';
+const REVEAL_START = 'top 96%';
 const REVEAL_DURATION = 0.72;
 const STAGGER_SECONDS = 0.1;
 
 export function initReveal() {
-    const elements = [...document.querySelectorAll('[data-reveal], .section-heading, [data-story-step]')]
+    const revealSelector = '[data-reveal], .section-heading, [data-story-step], .site-footer .footer-grid, .site-footer .footer-bottom';
+    const elements = [...document.querySelectorAll(revealSelector)]
         .filter((element) => !element.closest('#hero'));
     const gsap = window.gsap;
     const scrollTrigger = window.ScrollTrigger;
@@ -25,7 +26,7 @@ export function initReveal() {
 
     elements.forEach((element) => {
         const parent = element.parentElement;
-        const siblings = groups.get(parent) ?? [...parent.children].filter((child) => child.matches('[data-reveal], .section-heading, [data-story-step]') && !child.closest('#hero'));
+        const siblings = groups.get(parent) ?? [...parent.children].filter((child) => child.matches(revealSelector) && !child.closest('#hero'));
         groups.set(parent, siblings);
         const index = siblings.indexOf(element);
         if (!element.dataset.reveal && siblings.length >= 3) {
@@ -35,7 +36,7 @@ export function initReveal() {
         element.classList.add('reveal-pending');
 
         const direction = element.dataset.reveal ?? (element.matches('.section-heading') ? 'left' : undefined);
-        const from = { autoAlpha: 0, y: 26 };
+        const from = { autoAlpha: 0.18, y: 48, scale: 0.975 };
         if (direction === 'left') { from.x = -28; from.y = 0; }
         else if (direction === 'right') { from.x = 28; from.y = 0; }
         else if (direction === 'scale') { from.scale = 0.94; from.y = 0; }
@@ -48,8 +49,7 @@ export function initReveal() {
             duration: REVEAL_DURATION,
             delay: Math.min(index, 4) * STAGGER_SECONDS,
             ease: 'power3.out',
-            clearProps: 'opacity,visibility,transform',
-            scrollTrigger: { trigger: element, start: REVEAL_START, once: true },
+            scrollTrigger: { trigger: element, start: REVEAL_START, end: 'top 62%', scrub: 0.72, invalidateOnRefresh: true },
             onComplete: () => {
                 element.classList.add('reveal-visible');
                 element.classList.remove('reveal-pending');

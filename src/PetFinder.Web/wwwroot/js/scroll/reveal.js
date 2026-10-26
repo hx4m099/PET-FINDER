@@ -1,7 +1,8 @@
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 export function initReveal() {
-    const elements = [...document.querySelectorAll('[data-reveal], [data-story-step], .section-heading')]
+    const revealSelector = '[data-reveal], [data-story-step], .section-heading, .site-footer .footer-grid, .site-footer .footer-bottom';
+    const elements = [...document.querySelectorAll(revealSelector)]
         .filter((element) => !element.closest('#hero'));
     if (!elements.length) return;
 
@@ -13,7 +14,7 @@ export function initReveal() {
     const parents = new Map();
     elements.forEach((element) => {
         const parent = element.parentElement;
-        const siblings = parents.get(parent) ?? [...parent.children].filter((child) => child.matches('[data-reveal], [data-story-step], .section-heading') && !child.closest('#hero'));
+        const siblings = parents.get(parent) ?? [...parent.children].filter((child) => child.matches(revealSelector) && !child.closest('#hero'));
         parents.set(parent, siblings);
         const index = siblings.indexOf(element);
         if (!element.dataset.reveal && element.matches('.section-heading')) element.dataset.reveal = 'left';
