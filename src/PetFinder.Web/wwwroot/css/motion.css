@@ -790,12 +790,12 @@ html.js-enabled .note-bottom .note-icon::after { animation-delay: 1.15s; }
 
     .page-section:not(.community-section)::before {
         background:
-            radial-gradient(ellipse at 12% 24%, rgba(244, 152, 105, .20), transparent 34%),
-            radial-gradient(ellipse at 88% 75%, rgba(133, 163, 126, .19), transparent 35%),
-            radial-gradient(ellipse at 58% 8%, rgba(238, 205, 151, .16), transparent 30%);
-        background-size: 160% 160%;
-        opacity: .82;
-        animation: section-aurora-drift 19s ease-in-out infinite alternate;
+            radial-gradient(ellipse at 12% 24%, rgba(244, 152, 105, .31), transparent 36%),
+            radial-gradient(ellipse at 88% 75%, rgba(133, 163, 126, .29), transparent 38%),
+            radial-gradient(ellipse at 58% 8%, rgba(238, 205, 151, .24), transparent 34%);
+        background-size: 190% 190%;
+        opacity: .92;
+        animation: section-aurora-drift 11s ease-in-out infinite alternate;
     }
 
     .page-section:not(.community-section)::after {
@@ -826,11 +826,26 @@ html.js-enabled .note-bottom .note-icon::after { animation-delay: 1.15s; }
         content: "";
         pointer-events: none;
         background:
-            radial-gradient(ellipse at 8% 18%, rgba(238, 129, 85, .28), transparent 36%),
-            radial-gradient(ellipse at 90% 82%, rgba(127, 164, 126, .27), transparent 40%),
+            radial-gradient(ellipse at 8% 18%, rgba(238, 129, 85, .42), transparent 38%),
+            radial-gradient(ellipse at 90% 82%, rgba(127, 164, 126, .40), transparent 42%),
             linear-gradient(125deg, #3d3028 0%, #49382b 48%, #35433a 100%);
-        background-size: 160% 160%;
-        animation: community-aurora-drift 16s ease-in-out infinite alternate;
+        background-size: 190% 190%;
+        animation: community-aurora-drift 10s ease-in-out infinite alternate;
+    }
+
+    .community-section::after {
+        position: absolute;
+        z-index: 0;
+        inset: -38% -16%;
+        content: "";
+        pointer-events: none;
+        background:
+            radial-gradient(ellipse at 24% 42%, rgba(246, 137, 91, .42) 0%, rgba(246, 137, 91, .18) 18%, transparent 38%),
+            radial-gradient(ellipse at 78% 58%, rgba(138, 183, 139, .40) 0%, rgba(138, 183, 139, .16) 19%, transparent 40%);
+        filter: blur(28px) saturate(1.25);
+        opacity: .88;
+        transform: translate3d(-5%, 1%, 0) scale(1);
+        animation: community-light-drift 8s ease-in-out infinite alternate;
     }
 
     .community-content { position: relative; z-index: 1; }
@@ -848,8 +863,9 @@ html.js-enabled .note-bottom .note-icon::after { animation-delay: 1.15s; }
         inset: -60%;
         content: "";
         pointer-events: none;
-        background: radial-gradient(ellipse at 28% 50%, rgba(239, 130, 85, .24), transparent 36%), radial-gradient(ellipse at 76% 55%, rgba(113, 143, 114, .27), transparent 40%);
-        animation: footer-aurora-drift 21s ease-in-out infinite alternate;
+        background: radial-gradient(ellipse at 28% 50%, rgba(239, 130, 85, .38), transparent 38%), radial-gradient(ellipse at 76% 55%, rgba(113, 143, 114, .4), transparent 42%);
+        filter: blur(20px) saturate(1.2);
+        animation: footer-aurora-drift 10s ease-in-out infinite alternate;
     }
 
     .site-footer > .container { position: relative; z-index: 1; }
@@ -861,12 +877,17 @@ html.js-enabled .note-bottom .note-icon::after { animation-delay: 1.15s; }
 
 @keyframes section-aurora-drift {
     from { background-position: 0% 15%, 100% 80%, 65% 0%; }
-    to { background-position: 75% 90%, 18% 10%, 15% 85%; }
+    to { background-position: 100% 95%, 0% 5%, 5% 100%; transform: scale(1.035); }
 }
 
 @keyframes community-aurora-drift {
     from { background-position: 0% 18%, 100% 82%, 0% 50%; }
-    to { background-position: 78% 86%, 14% 8%, 100% 50%; }
+    to { background-position: 100% 100%, 0% 0%, 100% 50%; transform: scale(1.04); }
+}
+
+@keyframes community-light-drift {
+    from { transform: translate3d(-7%, 2%, 0) scale(.94) rotate(-2deg); opacity: .58; }
+    to { transform: translate3d(8%, -4%, 0) scale(1.1) rotate(3deg); opacity: .96; }
 }
 
 @keyframes footer-aurora-drift {
