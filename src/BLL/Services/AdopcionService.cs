@@ -8,6 +8,10 @@ namespace PetFinder.BLL.Services;
 /// <summary>Consulta el catálogo de adopción y sus publicaciones disponibles.</summary>
 public sealed class AdopcionService(IMascotaRepository mascotaRepository, IRefugioRepository refugioRepository)
 {
+    /// <summary>Obtiene los refugios activos que pueden aparecer en filtros y detalles del catálogo.</summary>
+    public Task<IReadOnlyCollection<Refugio>> ObtenerRefugiosActivosAsync(CancellationToken cancellationToken = default) =>
+        refugioRepository.ObtenerTodosAsync(true, cancellationToken);
+
     /// <summary>Obtiene mascotas disponibles con filtros opcionales de refugio, especie y edad.</summary>
     public async Task<IReadOnlyCollection<Mascota>> ObtenerCatalogoAsync(
         Guid? refugioId = null,

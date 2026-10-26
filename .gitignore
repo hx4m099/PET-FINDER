@@ -14,6 +14,7 @@
 **/appsettings.*.local.json
 **/secrets*.json
 !**/appsettings.example.json
+**/wwwroot/uploads/
 
 # User-specific files
 *.rsuser

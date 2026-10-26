@@ -1,0 +1,18 @@
+@model PetFinder.Web.ViewModels.DetalleMascotaViewModel
+@{
+    ViewData["Title"] = $"Conoce a {Model.Mascota.Nombre}";
+}
+<section class="section container detail-layout">
+    <div class="detail-photo"><img src="@Model.Mascota.FotoUrl" alt="Foto de @Model.Mascota.Nombre" /><span class="status-pill">Lista para conocerte</span></div>
+    <div class="detail-copy"><a asp-action="Index" class="text-link">← Volver al catálogo</a><span class="eyebrow mt-4">@Model.Mascota.Especie · @Model.Mascota.Ciudad</span><h1>@Model.Mascota.Nombre</h1><p class="detail-lead">@Model.Mascota.Descripcion</p><dl class="detail-facts"><div><dt>Raza</dt><dd>@(string.IsNullOrWhiteSpace(Model.Mascota.Raza) ? "Por conocer" : Model.Mascota.Raza)</dd></div><div><dt>Edad</dt><dd>@(Model.Mascota.EdadMeses.HasValue ? $"{Model.Mascota.EdadMeses} meses" : "Por conocer")</dd></div><div><dt>Refugio aliado</dt><dd>@Model.Refugio.Nombre</dd></div><div><dt>Dirección</dt><dd>@Model.Refugio.Direccion · @Model.Refugio.Ciudad</dd></div></dl>
+        @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Adoptante"))
+        {
+            <form asp-action="Agendar" asp-route-id="@Model.Mascota.Id" method="post" class="form-card schedule-form"><h2>Solicita una visita</h2><p>El equipo del refugio confirmará la cita. La adopción se completa presencialmente.</p><div asp-validation-summary="ModelOnly" class="validation-summary"></div><div class="mb-3"><label asp-for="FechaInicioLocal" class="form-label"></label><input asp-for="FechaInicioLocal" class="form-control" type="datetime-local" /><span asp-validation-for="FechaInicioLocal" class="field-error"></span></div><div class="mb-3"><label asp-for="DuracionMinutos" class="form-label"></label><select asp-for="DuracionMinutos" class="form-select"><option>30</option><option>45</option><option>60</option></select></div><div class="mb-3"><label asp-for="Notas" class="form-label"></label><textarea asp-for="Notas" class="form-control" rows="2"></textarea></div><button type="submit" class="btn btn-primary">Solicitar cita</button></form>
+        }
+        else
+        {
+            <div class="callout-card"><h2>Ven a conocerla en persona</h2><p>Inicia sesión como adoptante para solicitar una cita de visita.</p><a asp-controller="Cuenta" asp-action="Ingresar" asp-route-returnUrl="@Context.Request.Path" class="btn btn-primary">Iniciar sesión</a></div>
+        }
+    </div>
+</section>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

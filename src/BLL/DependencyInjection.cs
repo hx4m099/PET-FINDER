@@ -23,6 +23,8 @@ public static class DependencyInjection
         services.AddScoped<CoincidenciaService>();
         services.AddScoped<AdopcionService>();
         services.AddScoped<CitaService>();
+        services.AddScoped<GestionRefugioService>();
+        services.AddScoped<AdministracionService>();
         services.AddScoped<IValidator<RegistroUsuarioDto>, RegistroUsuarioValidator>();
         services.AddScoped<IValidator<InicioSesionDto>, InicioSesionValidator>();
         services.AddScoped<IValidator<CrearReporteMascotaDto>, CrearReporteMascotaValidator>();

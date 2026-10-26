@@ -103,6 +103,30 @@ public sealed class CitaService(
         return citaRepository.ObtenerPorUsuarioAsync(usuarioId, cancellationToken);
     }
 
+    /// <summary>Obtiene las solicitudes recibidas por el refugio ligado a la cuenta autenticada.</summary>
+    public async Task<IReadOnlyCollection<Cita>> ObtenerPorRefugioAsync(Guid usuarioId, CancellationToken cancellationToken = default)
+    {
+        var usuario = await usuarioRepository.ObtenerPorIdAsync(usuarioId, cancellationToken);
+        if (usuario is null || !usuario.Activo)
+        {
+            throw new EntityNotFoundException("usuario", usuarioId);
+        }
+
+        if (usuario.Rol != Rol.Refugio)
+        {
+            throw new BusinessRuleException("Esta vista requiere una cuenta de refugio.");
+        }
+
+        var refugio = (await refugioRepository.ObtenerTodosAsync(cancellationToken: cancellationToken))
+            .FirstOrDefault(item => item.UsuarioId == usuarioId && item.Activo)
+            ?? throw new EntityNotFoundException("refugio activo", usuarioId);
+        return await citaRepository.ObtenerPorRefugioYFechaAsync(
+            refugio.Id,
+            DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc),
+            DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc),
+            cancellationToken);
+    }
+
     /// <summary>Confirma una cita pendiente únicamente para el refugio asociado o un administrador.</summary>
     public async Task<Cita> ConfirmarAsync(Guid citaId, Guid usuarioActorId, CancellationToken cancellationToken = default)
     {

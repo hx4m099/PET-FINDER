@@ -1,6 +1,6 @@
 # PetFinder
 
-Aplicación ASP.NET Core MVC con .NET 8 para reportar mascotas perdidas o encontradas, sugerir coincidencias fotográficas y coordinar citas de adopción con refugios aliados. El alcance actual es progresivo: esta entrega implementa las capas de dominio y persistencia en memoria; todavía no hay autenticación, interfaz web ni conexión real a Oracle.
+Aplicación ASP.NET Core MVC con .NET 8 para reportar mascotas perdidas o encontradas, sugerir coincidencias fotográficas y coordinar citas de adopción con refugios aliados. El almacenamiento actual es en memoria y las coincidencias son simuladas; Oracle y el análisis real de imágenes aún no están conectados.
 
 ## Estructura de la solución
 
@@ -40,7 +40,7 @@ PetFinder/
     └── PetFinder.Tests/              # Fase 5
 ```
 
-Al completar la **Fase 2** ya existen la solución y los proyectos `ENTITY`, `DATOS`, `DAL` y `BLL`; `PetFinder.Web` y `PetFinder.Tests` se agregarán en sus fases indicadas.
+Al completar la **Fase 3** ya existen `ENTITY`, `DATOS`, `DAL`, `BLL` y `PetFinder.Web`; `PetFinder.Tests` se agregará en la Fase 5.
 
 ## Referencias entre proyectos
 
@@ -52,22 +52,22 @@ Reglas objetivo: `PetFinder.Web → BLL → DAL → DATOS`; `ENTITY` es comparti
 | `DATOS` | `ENTITY` |
 | `DAL` | `ENTITY`, `DATOS` |
 | `BLL` | `DAL`, `ENTITY` |
-| `PetFinder.Web` (Fase 3) | `BLL`, `ENTITY` únicamente |
+| `PetFinder.Web` | `BLL`, `ENTITY` únicamente |
 | `PetFinder.Tests` (Fase 5) | `BLL`, `ENTITY` |
 
 La GUI no accederá directamente a `DAL` ni a `DATOS`. `AddBll()` llama internamente a `AddDal()`, que registra los cinco repositorios en memoria y un almacén singleton compartido.
 
 ## Crear o abrir la solución en Visual Studio
 
-Para abrir el estado actual, abre `PetFinder.sln` con Visual Studio 2022 y selecciona el SDK de .NET 8. La solución contiene las bibliotecas `ENTITY`, `DATOS`, `DAL` y `BLL`; aún no tiene un proyecto web de inicio.
+Para abrir el estado actual, abre `PetFinder.sln` con Visual Studio 2022 y selecciona el SDK de .NET 8. `src/PetFinder.Web` es la aplicación de inicio y conecta a BLL con `AddBll()`.
 
 Para recrearla manualmente desde Visual Studio:
 
 1. Crea una solución en blanco llamada `PetFinder` en la carpeta raíz del repositorio.
-2. Crea dentro de `src` cuatro proyectos **Class Library** con framework `.NET 8.0` y estos nombres exactos: `ENTITY`, `DATOS`, `DAL` y `BLL`.
-3. En **Dependencies → Add Project Reference**, configura `DATOS → ENTITY`, `DAL → ENTITY, DATOS` y `BLL → DAL, ENTITY`. `ENTITY` no debe referenciar otros proyectos.
+2. Crea dentro de `src` cuatro proyectos **Class Library** con framework `.NET 8.0` y estos nombres exactos: `ENTITY`, `DATOS`, `DAL` y `BLL`; crea además `PetFinder.Web` como proyecto **ASP.NET Core Web App (Model-View-Controller)** .NET 8.
+3. En **Dependencies → Add Project Reference**, configura `DATOS → ENTITY`, `DAL → ENTITY, DATOS`, `BLL → DAL, ENTITY` y `PetFinder.Web → BLL, ENTITY`. `ENTITY` no debe referenciar otros proyectos.
 4. En NuGet instala en `DATOS` `Microsoft.EntityFrameworkCore` y `Microsoft.EntityFrameworkCore.Relational` versión `8.0.10`; en `DAL`, `Microsoft.Extensions.DependencyInjection.Abstractions` versión `8.0.2`; y en `BLL`, `FluentValidation` `11.9.2`, `Microsoft.Extensions.DependencyInjection.Abstractions` `8.0.2` y `Microsoft.Extensions.Logging.Abstractions` `8.0.2`.
-5. Organiza los archivos según el árbol anterior, configura `Program.cs` con `builder.Services.AddBll()` cuando se cree la aplicación web y usa **Build → Build Solution**.
+5. Organiza los archivos según el árbol anterior, configura `Program.cs` con `builder.Services.AddBll()` y autenticación por cookies y usa **Build → Build Solution**.
 
 Las versiones de paquetes aquí fijadas compilan con .NET 8. No se agrega todavía `Oracle.EntityFrameworkCore`; el proveedor Oracle se incorpora cuando se sustituya el almacenamiento en memoria.
 
@@ -88,12 +88,29 @@ Los correos `@petfinder.local` del seed son datos demostrativos. El campo `Passw
 - Coincidencias: primero el repositorio filtra por especie, ciudad y fecha reciente; después el mock genera porcentajes deterministas entre 55 y 95, que se ordenan de mayor a menor. El mock **no analiza imágenes reales**.
 - Citas: verifica usuario, refugio y mascota activa; rechaza horarios pasados y cruces con citas pendientes o confirmadas; permite confirmar solo citas pendientes y cancelar citas pendientes o confirmadas con autorización del adoptante, refugio o administrador.
 - `AddBll()` registra servicios, validadores, `TimeProvider` y la implementación simulada de `IImageSimilarityService`, y llama internamente a `AddDal()`.
+- Para el panel web, `GestionRefugioService` limita la edición de mascotas al refugio propietario y `AdministracionService` controla cambios de estado de usuarios y refugios.
+
+## Qué incluye la Fase 3
+
+- Landing responsive en español, catálogo con filtros por refugio/especie/edad y ficha de mascota con solicitud de cita presencial.
+- Registro de adoptantes, login PBKDF2 a través de BLL y cookies HttpOnly con roles; los accesos de demostración para Adoptante/Refugio/Administrador solo se habilitan en `Development`.
+- Formularios Razor protegidos con antiforgery, reporte con carga de imagen JPG/PNG/WebP hasta 5 MB y vista previa local; archivos subidos se excluyen de Git.
+- Resultados de coincidencia con advertencia de similitud simulada, página Mis citas, panel de refugio para crear/editar publicaciones y panel de administración para cuentas/refugios.
+- Middleware global que traduce validación y reglas de negocio a respuestas HTTP seguras. El Web referencia solo `BLL` y `ENTITY`.
 
 ## Compilar
 
 ```powershell
 dotnet build PetFinder.sln --configuration Release
 ```
+
+Para iniciar la aplicación local en Development desde PowerShell:
+
+```powershell
+dotnet run --project src/PetFinder.Web/PetFinder.Web.csproj
+```
+
+Al iniciar en Development, usa “Acceso de demostración local” en el login para explorar los tres roles con los usuarios seed. Ese selector no está disponible fuera de Development y las cuentas seed no tienen contraseñas.
 
 Con Visual Studio también puedes compilar con **Build → Build Solution**. Las pruebas unitarias xUnit/Moq sobre BLL están previstas para la Fase 5.
 
@@ -111,7 +128,7 @@ git remote add origin https://github.com/hx4m099/PET-FINDER.git
 git push -u origin main
 ```
 
-Cada fase se desarrolla en su propia rama. Para las fases 1 y 2:
+Cada fase se desarrolla en su propia rama. El flujo usado para la Fase 3 es:
 
 ```powershell
 git switch -c feature/fase-1-datos
@@ -137,7 +154,19 @@ git merge --no-ff feature/fase-2-bll
 git push origin main
 ```
 
-El `.gitignore` excluye `appsettings.Development.json`, otros archivos locales de configuración y archivos de secretos; `appsettings.example.json` permanece versionable para una fase posterior. No se incluyen contraseñas, claves ni cadenas de conexión.
+```powershell
+git switch -c feature/fase-3-web
+dotnet build PetFinder.sln --configuration Release
+git add .
+git commit -m "feat: aplicación web MVC PetFinder"
+git push -u origin feature/fase-3-web
+git switch main
+git pull --ff-only origin main
+git merge --no-ff feature/fase-3-web
+git push origin main
+```
+
+El `.gitignore` excluye `appsettings.Development.json`, uploads locales y archivos de secretos; `src/PetFinder.Web/appsettings.example.json` permanece versionable sin credenciales ni cadenas de conexión.
 
 ## Estado de fases
 
@@ -145,8 +174,8 @@ El `.gitignore` excluye `appsettings.Development.json`, otros archivos locales d
 |---|---|---|
 | 1 | ENTITY, DATOS y DAL; repositorios en memoria | Implementada y publicada |
 | 2 | BLL, reglas, servicios, DTOs y similitud simulada | Implementada y verificada; sin pruebas xUnit todavía |
-| 3 | ASP.NET Core MVC, vistas y autenticación simulada | Pendiente |
+| 3 | ASP.NET Core MVC, vistas y autenticación simulada | Implementada; build y smoke HTTP verificados |
 | 4 | Escenas Three.js y animaciones accesibles | Pendiente |
 | 5 | Pruebas unitarias xUnit + Moq sobre BLL | Pendiente |
 
-Al conectar Oracle en una fase posterior se configurará `PetFinderDbContext` con el proveedor `Oracle.EntityFrameworkCore` desde el registro de servicios de `AddDal()`, sustituyendo los repositorios en memoria sin cambiar BLL ni la GUI. Las credenciales de Oracle deberán ir en User Secrets o en configuración local ignorada por Git; se añadirá un `appsettings.example.json` sin secretos cuando exista el proyecto web.
+Al conectar Oracle en una fase posterior se configurará `PetFinderDbContext` con el proveedor `Oracle.EntityFrameworkCore` desde el registro de servicios de `AddDal()`, sustituyendo los repositorios en memoria sin cambiar BLL ni la GUI. Las credenciales de Oracle deberán ir en User Secrets o en configuración local ignorada por Git.

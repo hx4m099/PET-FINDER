@@ -1,0 +1,25 @@
+@model IReadOnlyCollection<PetFinder.Entity.Entities.Cita>
+@using PetFinder.Entity.Enums
+@{
+    ViewData["Title"] = "Mis citas";
+}
+<section class="section container">
+    <div class="section-heading"><span class="eyebrow">Tu próxima visita</span><h1>Mis citas</h1><p>Consulta el estado de tus solicitudes con los refugios aliados.</p></div>
+    @if (TempData["Mensaje"] is string mensaje) { <div class="alert alert-success" role="status">@mensaje</div> }
+    @if (Model.Count == 0)
+    {
+        <div class="empty-state"><div class="empty-icon">◷</div><h2>Todavía no tienes citas</h2><p>Encuentra una mascota que te encante y solicita una visita presencial.</p><a class="btn btn-primary" asp-controller="Adopcion" asp-action="Index">Explorar mascotas</a></div>
+    }
+    else
+    {
+        <div class="appointment-list">
+        @foreach (var cita in Model.OrderBy(item => item.FechaInicioUtc))
+        {
+            <article class="appointment-card"><div class="appointment-date"><strong>@cita.FechaInicioUtc.ToLocalTime().ToString("dd")</strong><span>@cita.FechaInicioUtc.ToLocalTime().ToString("MMM")</span></div><div class="appointment-info"><h2>Visita de adopción</h2><p>@cita.FechaInicioUtc.ToLocalTime().ToString("dddd, dd MMMM yyyy · HH:mm") · Refugio aliado</p><span class="status-pill status-@cita.Estado.ToString().ToLowerInvariant()">@cita.Estado</span></div><div class="appointment-actions">
+            @if (User.IsInRole("Refugio") && cita.Estado == EstadoCita.Pendiente) { <form asp-action="Confirmar" asp-route-id="@cita.Id" method="post"><button class="btn btn-soft" type="submit">Confirmar</button></form> }
+            @if (cita.Estado is EstadoCita.Pendiente or EstadoCita.Confirmada) { <form asp-action="Cancelar" asp-route-id="@cita.Id" method="post"><button class="btn btn-link text-danger" type="submit">Cancelar</button></form> }
+            </div></article>
+        }
+        </div>
+    }
+</section>
