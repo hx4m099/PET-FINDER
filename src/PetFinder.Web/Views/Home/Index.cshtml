@@ -11,11 +11,12 @@
             <div class="hero-actions"><a class="btn btn-primary btn-lg" asp-controller="Reportes" asp-action="Crear">Buscar una mascota <span aria-hidden="true">↗</span></a><a class="btn btn-soft btn-lg" asp-controller="Adopcion" asp-action="Index">Conocer para adoptar <span aria-hidden="true">↗</span></a></div>
             <div class="hero-note"><span aria-hidden="true">✦</span> Cerca de ti, con el apoyo de refugios aliados.</div>
         </div>
-        <div class="hero-art" role="img" aria-label="Ilustración decorativa de mascotas">
-            <div class="hero-art-glow" data-parallax="0.22"></div><div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div><div class="paw-mark paw-one" aria-hidden="true" data-parallax="0.38">🐾</div><div class="paw-mark paw-two" aria-hidden="true" data-parallax="0.3">🐾</div>
-            <div class="pet-illustration" aria-hidden="true"><div class="pet-sun"></div><div class="pet-card pet-dog"><span>🐶</span></div><div class="pet-card pet-cat"><span>🐱</span></div><div class="pet-heart">♡</div></div>
-            <div class="floating-note note-top"><span class="note-icon" aria-hidden="true">⌕</span><span><strong>Buscando</strong><small>Una nueva coincidencia</small></span></div><div class="floating-note note-bottom"><span class="note-icon note-icon-green" aria-hidden="true">♥</span><span><strong>Adopción responsable</strong><small>Con refugios aliados</small></span></div>
-            <div class="hero-3d-canvas" data-scene="landing" aria-hidden="true"></div>
+        <div class="hero-art" role="img" aria-label="Modelos 3D de un perro dorado y un gato gris sentados">
+            <div class="hero-art-glow" data-parallax="0.22"></div>
+            <svg class="hero-orbits" viewBox="0 0 640 500" aria-hidden="true"><ellipse class="hero-orbit-path orbit-path-one" cx="320" cy="250" rx="280" ry="178"/><ellipse class="hero-orbit-path orbit-path-two" cx="320" cy="250" rx="235" ry="144" transform="rotate(-14 320 250)"/></svg>
+            <div class="pet-illustration" aria-hidden="true"><img class="hero-fallback-pet hero-fallback-dog" src="@Url.Content("~/img/especies/perro.svg")" alt="" width="300" height="300" /><img class="hero-fallback-pet hero-fallback-cat" src="@Url.Content("~/img/especies/gato.svg")" alt="" width="300" height="300" /></div>
+            <div class="floating-note note-top"><span class="note-icon note-search" aria-hidden="true"></span><span><strong>Buscando</strong><small>Una nueva coincidencia</small></span></div><div class="floating-note note-bottom"><span class="note-icon note-heart" aria-hidden="true"></span><span><strong>Adopción responsable</strong><small>Con refugios aliados</small></span></div>
+            <div class="hero-3d-canvas" data-scene="landing" data-dog-model="@Url.Content("~/models/dog-chibi-idle.glb")" data-dog-fallback="@Url.Content("~/models/dog-chibi-rigged.glb")" data-cat-model="@Url.Content("~/models/cat-chibi-rigged.glb")" aria-hidden="true"></div>
         </div>
     </div>
     <div class="hero-scroll-cue" aria-hidden="true"><span></span> Desliza para explorar</div>
