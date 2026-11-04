@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using PetFinder.Entity.Entities;
+using PetFinder.Entity.Constants;
 
 namespace PetFinder.Web.ViewModels;
 
@@ -17,7 +18,7 @@ public sealed class DetalleMascotaViewModel
     [Display(Name = "Duración (minutos)")]
     public int DuracionMinutos { get; set; } = 30;
 
-    [StringLength(1000)]
+    [StringLength(LimitesEntidad.Notas)]
     [Display(Name = "Mensaje para el refugio")]
     public string Notas { get; set; } = string.Empty;
 }

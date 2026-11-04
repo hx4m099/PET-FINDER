@@ -1,5 +1,6 @@
 using FluentValidation;
 using PetFinder.BLL.Dtos;
+using PetFinder.Entity.Constants;
 
 namespace PetFinder.BLL.Validators;
 
@@ -8,7 +9,7 @@ public sealed class InicioSesionValidator : AbstractValidator<InicioSesionDto>
 {
     public InicioSesionValidator()
     {
-        RuleFor(dto => dto.CorreoElectronico).NotEmpty().EmailAddress().MaximumLength(254);
+        RuleFor(dto => dto.CorreoElectronico).NotEmpty().EmailAddress().MaximumLength(LimitesEntidad.CorreoElectronico);
         RuleFor(dto => dto.Contrasena).NotEmpty().MaximumLength(128);
     }
 }

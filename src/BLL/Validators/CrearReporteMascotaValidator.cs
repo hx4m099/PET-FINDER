@@ -1,6 +1,7 @@
 using FluentValidation;
 using PetFinder.BLL.Dtos;
 using PetFinder.Entity.Enums;
+using PetFinder.Entity.Constants;
 
 namespace PetFinder.BLL.Validators;
 
@@ -11,13 +12,13 @@ public sealed class CrearReporteMascotaValidator : AbstractValidator<CrearReport
     {
         RuleFor(dto => dto.Tipo).IsInEnum();
         RuleFor(dto => dto.Especie).IsInEnum();
-        RuleFor(dto => dto.NombreMascota).MaximumLength(120);
-        RuleFor(dto => dto.Raza).MaximumLength(100);
-        RuleFor(dto => dto.Ciudad).NotEmpty().MinimumLength(2).MaximumLength(100);
-        RuleFor(dto => dto.Descripcion).NotEmpty().MinimumLength(5).MaximumLength(2000);
+        RuleFor(dto => dto.NombreMascota).MaximumLength(LimitesEntidad.NombreMascota);
+        RuleFor(dto => dto.Raza).MaximumLength(LimitesEntidad.Raza);
+        RuleFor(dto => dto.Ciudad).NotEmpty().MinimumLength(2).MaximumLength(LimitesEntidad.Ciudad);
+        RuleFor(dto => dto.Descripcion).NotEmpty().MinimumLength(5).MaximumLength(LimitesEntidad.Descripcion);
         RuleFor(dto => dto.FotoUrl)
             .NotEmpty()
-            .MaximumLength(2048)
+            .MaximumLength(LimitesEntidad.Url)
             .Must(EsReferenciaDeImagenValida)
             .WithMessage("La foto debe ser una URL HTTP(S) o una ruta local válida.");
         RuleFor(dto => dto.FechaEventoUtc).Must(fecha => fecha != default)

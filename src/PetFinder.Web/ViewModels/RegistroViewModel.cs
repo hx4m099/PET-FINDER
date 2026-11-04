@@ -1,15 +1,16 @@
 using System.ComponentModel.DataAnnotations;
+using PetFinder.Entity.Constants;
 
 namespace PetFinder.Web.ViewModels;
 
 /// <summary>Campos del formulario web para crear una cuenta.</summary>
 public sealed class RegistroViewModel
 {
-    [Required, StringLength(120, MinimumLength = 2, ErrorMessage = "Ingresa tu nombre completo.")]
+    [Required, StringLength(LimitesEntidad.NombreUsuario, MinimumLength = 2, ErrorMessage = "Ingresa tu nombre completo.")]
     [Display(Name = "Nombre completo")]
     public string NombreCompleto { get; set; } = string.Empty;
 
-    [Required, EmailAddress, StringLength(254)]
+    [Required, EmailAddress, StringLength(LimitesEntidad.CorreoElectronico)]
     [Display(Name = "Correo electrónico")]
     public string CorreoElectronico { get; set; } = string.Empty;
 

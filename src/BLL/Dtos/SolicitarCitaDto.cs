@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using PetFinder.Entity.Constants;
 
 namespace PetFinder.BLL.Dtos;
 
@@ -19,6 +20,6 @@ public sealed class SolicitarCitaDto
     [Range(15, 120)]
     public int DuracionMinutos { get; init; } = 30;
 
-    [StringLength(1000)]
+    [StringLength(LimitesEntidad.Notas)]
     public string Notas { get; init; } = string.Empty;
 }

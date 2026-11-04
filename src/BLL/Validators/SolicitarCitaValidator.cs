@@ -1,5 +1,6 @@
 using FluentValidation;
 using PetFinder.BLL.Dtos;
+using PetFinder.Entity.Constants;
 
 namespace PetFinder.BLL.Validators;
 
@@ -14,6 +15,6 @@ public sealed class SolicitarCitaValidator : AbstractValidator<SolicitarCitaDto>
         RuleFor(dto => dto.FechaInicioUtc).Must(fecha => fecha != default)
             .WithMessage("La fecha y hora de inicio son obligatorias.");
         RuleFor(dto => dto.DuracionMinutos).InclusiveBetween(15, 120);
-        RuleFor(dto => dto.Notas).MaximumLength(1000);
+        RuleFor(dto => dto.Notas).MaximumLength(LimitesEntidad.Notas);
     }
 }

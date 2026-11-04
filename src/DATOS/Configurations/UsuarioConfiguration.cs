@@ -13,7 +13,7 @@ public sealed class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
     {
         builder.ToTable("USUARIOS");
         builder.HasKey(usuario => usuario.Id);
-        builder.Property(usuario => usuario.NombreCompleto).HasMaxLength(LimitesEntidad.Nombre).IsRequired();
+        builder.Property(usuario => usuario.NombreCompleto).HasMaxLength(LimitesEntidad.NombreUsuario).IsRequired();
         builder.Property(usuario => usuario.CorreoElectronico).HasMaxLength(LimitesEntidad.CorreoElectronico).IsRequired();
         builder.Property(usuario => usuario.PasswordHash).HasMaxLength(LimitesEntidad.PasswordHash).IsRequired();
         builder.Property(usuario => usuario.Rol).HasConversion<string>().HasMaxLength(30).IsRequired();

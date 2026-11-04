@@ -13,7 +13,7 @@ public sealed class RefugioConfiguration : IEntityTypeConfiguration<Refugio>
     {
         builder.ToTable("REFUGIOS");
         builder.HasKey(refugio => refugio.Id);
-        builder.Property(refugio => refugio.Nombre).HasMaxLength(LimitesEntidad.Nombre).IsRequired();
+        builder.Property(refugio => refugio.Nombre).HasMaxLength(LimitesEntidad.NombreRefugio).IsRequired();
         builder.Property(refugio => refugio.Descripcion).HasMaxLength(LimitesEntidad.Descripcion).IsRequired();
         builder.Property(refugio => refugio.Ciudad).HasMaxLength(LimitesEntidad.Ciudad).IsRequired();
         builder.Property(refugio => refugio.Direccion).HasMaxLength(LimitesEntidad.Direccion).IsRequired();

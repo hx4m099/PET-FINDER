@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using PetFinder.Entity.Constants;
 
 namespace PetFinder.Web.ViewModels;
 
@@ -7,7 +8,7 @@ public sealed class InicioSesionViewModel
 {
     public string? ReturnUrl { get; set; }
 
-    [Required, EmailAddress, StringLength(254)]
+    [Required, EmailAddress, StringLength(LimitesEntidad.CorreoElectronico)]
     [Display(Name = "Correo electrónico")]
     public string CorreoElectronico { get; set; } = string.Empty;
 

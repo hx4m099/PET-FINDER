@@ -13,7 +13,7 @@ public sealed class MascotaConfiguration : IEntityTypeConfiguration<Mascota>
     {
         builder.ToTable("MASCOTAS");
         builder.HasKey(mascota => mascota.Id);
-        builder.Property(mascota => mascota.Nombre).HasMaxLength(LimitesEntidad.Nombre).IsRequired();
+        builder.Property(mascota => mascota.Nombre).HasMaxLength(LimitesEntidad.NombreMascota).IsRequired();
         builder.Property(mascota => mascota.Especie).HasConversion<string>().HasMaxLength(30).IsRequired();
         builder.Property(mascota => mascota.Raza).HasMaxLength(LimitesEntidad.Raza).IsRequired();
         builder.Property(mascota => mascota.Descripcion).HasMaxLength(LimitesEntidad.Descripcion).IsRequired();

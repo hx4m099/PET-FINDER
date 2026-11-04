@@ -15,7 +15,7 @@ public sealed class ReporteMascotaConfiguration : IEntityTypeConfiguration<Repor
         builder.HasKey(reporte => reporte.Id);
         builder.Property(reporte => reporte.Tipo).HasConversion<string>().HasMaxLength(30).IsRequired();
         builder.Property(reporte => reporte.Especie).HasConversion<string>().HasMaxLength(30).IsRequired();
-        builder.Property(reporte => reporte.NombreMascota).HasMaxLength(LimitesEntidad.Nombre).IsRequired();
+        builder.Property(reporte => reporte.NombreMascota).HasMaxLength(LimitesEntidad.NombreMascota).IsRequired();
         builder.Property(reporte => reporte.Raza).HasMaxLength(LimitesEntidad.Raza).IsRequired();
         builder.Property(reporte => reporte.Ciudad).HasMaxLength(LimitesEntidad.Ciudad).IsRequired();
         builder.Property(reporte => reporte.Descripcion).HasMaxLength(LimitesEntidad.Descripcion).IsRequired();

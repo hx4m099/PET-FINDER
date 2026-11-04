@@ -1,5 +1,6 @@
 using FluentValidation;
 using PetFinder.BLL.Dtos;
+using PetFinder.Entity.Constants;
 
 namespace PetFinder.BLL.Validators;
 
@@ -9,7 +10,7 @@ public sealed class BuscarCoincidenciasValidator : AbstractValidator<BuscarCoinc
     public BuscarCoincidenciasValidator()
     {
         RuleFor(dto => dto.Especie).IsInEnum();
-        RuleFor(dto => dto.Ciudad).NotEmpty().MinimumLength(2).MaximumLength(100);
+        RuleFor(dto => dto.Ciudad).NotEmpty().MinimumLength(2).MaximumLength(LimitesEntidad.Ciudad);
         RuleFor(dto => dto.DiasRecientes).InclusiveBetween(1, 365);
         RuleFor(dto => dto.TipoReporteOrigen).IsInEnum().When(dto => dto.TipoReporteOrigen.HasValue);
     }

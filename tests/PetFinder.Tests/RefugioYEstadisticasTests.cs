@@ -107,7 +107,7 @@ public sealed class RefugioYEstadisticasTests
         FotoUrl = "/images/refugio.jpg",
         Latitud = latitud,
         Longitud = longitud,
-        Telefono = "+57 300 000 0000",
+        Telefono = "+573000000000",
         CorreoElectronico = $"{id:N}@test.local",
         Activo = true
     };
